@@ -172,3 +172,7 @@ html {
 .password-input input {
   width: 80%;
 }
+
+.NotFound {
+  color: white;
+}

@@ -10,6 +10,7 @@ const GoogleLogin = () => {
   const userCollectionRef = collection(db, "users");
   const LoginWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
+    navigate("/");
     let q = query(userCollectionRef, where("uid", "==", result.user.uid));
     let querySnap = await getDocs(q);
     if (querySnap.size > 0) {
@@ -22,8 +23,6 @@ const GoogleLogin = () => {
         uid: result.user.uid,
       });
     }
-
-    navigate("/");
   };
 
   return <GoogleButton onClick={LoginWithGoogle} />;

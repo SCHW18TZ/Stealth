@@ -3,9 +3,15 @@ import Logo from "../assets/StealthIconTransparent.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { db, auth, provider } from "../../firebase";
 import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { toast } from "react-hot-toast";
 
 const Navbar = () => {
   const [user] = useAuthState(auth);
+  const LogUserOut = () => {
+    signOut(auth);
+    toast.success("Logged Out Successfully");
+  };
 
   return (
     <nav className="navbar">
@@ -33,7 +39,9 @@ const Navbar = () => {
             <Link to="/myaccount" className="links">
               <button>My Account</button>
             </Link>
-            <button className="nav-log-out">Log Out</button>
+            <button className="nav-log-out" onClick={LogUserOut}>
+              Log Out
+            </button>
           </div>
         )}
       </ul>
