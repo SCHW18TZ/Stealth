@@ -139,13 +139,14 @@ html {
 .LoginPage form div {
   width: 240px;
   margin: 20px 0;
-  border: 1px solid #fff;
-  padding: 10px;
+  border: 2px solid #fff;
+  padding: 20px;
   border-radius: 5px;
 }
 
 .LoginPage form div input {
   width: 100%;
+  height: 100%;
   background: transparent;
   border: none;
   outline: none;
@@ -158,7 +159,6 @@ html {
 
 ::placeholder {
   color: white;
-  font-weight: bold;
   font-family: "Poppins", sans-serif;
 }
 
@@ -171,4 +171,24 @@ html {
 
 .password-input input {
   width: 80%;
+}
+
+.login-btn {
+  background: transparent;
+  border: 1px solid rgb(0, 106, 255);
+  color: white;
+  transition: all ease 0.5s;
+  padding: 15px 125px;
+  border-radius: 12px;
+  margin: 20px 0;
+  margin-bottom: 40px;
+}
+
+.login-btn:hover {
+  color: white;
+  background: rgb(0, 106, 255);
+}
+
+.icon {
+  cursor: pointer;
 }
