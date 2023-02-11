@@ -1,42 +1,174 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  overflow: hidden;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+html {
+  scroll-behavior: smooth;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #101010;
 }
 
-.card {
-  padding: 2em;
+.navbar .logo {
+  margin-left: 50px;
 }
 
-.read-the-docs {
-  color: #888;
+.navbar .logo img {
+  width: 8rem;
+  object-fit: cover;
+}
+
+.list-items {
+  margin-right: 60px;
+}
+
+.list-items .unauthorized-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-items .unauthorized-list .links {
+  margin: 0 10px;
+}
+
+.Sign-in-button,
+.Sign-up-button {
+  padding: 12px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}
+
+.Sign-in-button {
+  color: white;
+  background: rgb(0, 106, 255);
+  transition: all ease 0.5s;
+}
+
+.Sign-in-button:hover {
+  background: transparent;
+  border: 1px solid rgb(0, 106, 255);
+  color: white;
+}
+
+.Sign-up-button {
+  background: transparent;
+  border: 1px solid rgb(0, 106, 255);
+  color: white;
+  transition: all ease 0.5s;
+}
+
+.Sign-up-button:hover {
+  color: white;
+  background: rgb(0, 106, 255);
+}
+
+.list-items .authorized-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-items .authorized-list .links {
+  margin: 0 10px;
+}
+
+.list-items .authorized-list .links button {
+  padding: 12px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  background: transparent;
+  border: 1px solid rgb(0, 106, 255);
+  color: white;
+  transition: all ease 0.5s;
+}
+
+.list-items .authorized-list .links button:hover {
+  color: white;
+  background: rgb(0, 106, 255);
+}
+
+.list-items .authorized-list button {
+  color: white;
+  background: rgb(0, 106, 255);
+  transition: all ease 0.5s;
+  padding: 12px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}
+
+.list-items .authorized-list button:hover {
+  background: transparent;
+  border: 1px solid rgb(0, 106, 255);
+  color: white;
+}
+
+.LoginPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  flex-direction: column;
+}
+
+.LoginPage form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.LoginPage form div {
+  width: 240px;
+  margin: 20px 0;
+  border: 1px solid #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.LoginPage form div input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+}
+
+:focus-visible {
+  border: none;
+}
+
+::placeholder {
+  color: white;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}
+
+.password-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+}
+
+.password-input input {
+  width: 80%;
 }
