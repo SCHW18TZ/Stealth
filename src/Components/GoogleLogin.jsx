@@ -26,7 +26,7 @@ const GoogleLogin = () => {
     navigate("/");
   };
 
-  return <GoogleButton onClick={LoginWithGoogle} />;
+  return <GoogleButton onClick={LoginWithGoogle} className="google-button" />;
 };
 
 export default GoogleLogin;
