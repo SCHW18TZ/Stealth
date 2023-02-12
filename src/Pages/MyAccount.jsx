@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../firebase";
 import { updateProfile } from "firebase/auth";
 import { updateDoc, collection } from "firebase/firestore";
 
@@ -26,14 +26,15 @@ const MyAccount = () => {
     }
   };
 
+  console.log(user);
+
   return (
     <div className="MyAccount">
       <h1>My Account</h1>
 
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder={user.displayName} />
-        <input type="email" placeholder={user.email} />
-        <button type="submit">Update</button>
+        <img src={user?.photoURL} alt="" />
+        <h1>{user?.displayName}</h1>
       </form>
     </div>
   );

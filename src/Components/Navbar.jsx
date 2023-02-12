@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "../assets/StealthIconTransparent.png";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { db, auth, provider } from "../../firebase";
+import { db, auth, provider } from "../firebase";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { toast } from "react-hot-toast";
