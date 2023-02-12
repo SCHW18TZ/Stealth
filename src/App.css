@@ -172,6 +172,9 @@ html {
   width: 80%;
 }
 
+.NotFound {
+  color: white;
+}
 .login-btn {
   background: transparent;
   border: 1px solid rgb(0, 106, 255);
@@ -191,4 +194,8 @@ html {
 .icon {
   cursor: pointer;
   margin-right: 15px;
+}
+
+h1 {
+  color: white;
 }
