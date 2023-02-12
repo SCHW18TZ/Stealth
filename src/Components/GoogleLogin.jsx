@@ -5,9 +5,11 @@ import { Toaster, toast } from "react-hot-toast";
 import { db, auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { addDoc, query, where, getDocs, collection } from "firebase/firestore";
+
 const GoogleLogin = () => {
   let navigate = useNavigate();
   const userCollectionRef = collection(db, "users");
+
   const LoginWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
     navigate("/");
