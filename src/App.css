@@ -175,7 +175,8 @@ html {
 .NotFound {
   color: white;
 }
-.login-btn {
+.login-btn,
+.Register-button {
   background: transparent;
   border: 1px solid rgb(0, 106, 255);
   color: white;
@@ -184,9 +185,11 @@ html {
   border-radius: 12px;
   margin: 20px 0;
   margin-bottom: 40px;
+  cursor: pointer;
 }
 
-.login-btn:hover {
+.login-btn:hover,
+.Register-button:hover {
   color: white;
   background: rgb(0, 106, 255);
 }
@@ -196,6 +199,42 @@ html {
   margin-right: 15px;
 }
 
-h1 {
+.RegisterPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.RegisterPage .RegisterForm form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.RegisterPage .RegisterForm form div {
+  width: 280px;
+  margin: 20px 0;
+  border: 2px solid #fff;
+  border-radius: 5px;
+}
+
+.RegisterPage .RegisterForm form input {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background: transparent;
+  border: none;
+  outline: none;
   color: white;
+}
+
+.file-input {
+  cursor: pointer;
+}
+
+.google-button-wrapper {
+  display: flex;
+  justify-content: center;
 }

@@ -18,7 +18,6 @@ const Register = () => {
   const userCollectionRef = collection(db, "users");
   let navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
-  const [checkUsername, SetCheckUsername] = useState("");
 
   const usernameQuery = async (e) => {
     const name = e.target.value;
@@ -80,29 +79,38 @@ const Register = () => {
     <div className="RegisterPage">
       <Toaster />
       <div className="RegisterForm">
-        <h1>Register</h1>
         <form onSubmit={RegisterUser}>
-          <input
-            required
-            type="text"
-            placeholder="Username..."
-            onChange={usernameQuery}
-          />
-          <input required type="email" placeholder="Email..." />
-          <input required type="password" placeholder="password..." />
-          <input
-            required
-            type="file"
-            accept="image/*"
-            placeholder="Username..."
-            onChange={(e) => {
-              setSelectedImage(e.target.files[0]);
-            }}
-          />
-          <button type="submit">Register</button>
+          <div>
+            <input
+              required
+              type="text"
+              placeholder="Username..."
+              onChange={usernameQuery}
+            />
+          </div>
+          <div>
+            <input required type="email" placeholder="Email..." />
+          </div>
+          <div>
+            <input required type="password" placeholder="password..." />
+          </div>
+          <div className="file-input">
+            <input
+              required
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                setSelectedImage(e.target.files[0]);
+              }}
+            />
+          </div>
+          <button type="submit" className="Register-button">
+            Register
+          </button>
         </form>
-        <p>Or you can sign in with Google</p>
-        <GoogleLogin />
+        <div className="google-button-wrapper">
+          <GoogleLogin />
+        </div>
       </div>
     </div>
   );
