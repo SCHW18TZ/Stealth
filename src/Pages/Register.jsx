@@ -37,41 +37,48 @@ const Register = () => {
     const email = e.target[1].value;
     const password = e.target[2].value;
     try {
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      updateProfile(result.user, {
-        displayName: name,
-      });
+      let q = query(userCollectionRef, where("name", "==", name));
+      let querySnap = await getDocs(q);
+      if (querySnap.size > 0) {
+        return;
+      } else {
+        const result = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        updateProfile(result.user, {
+          displayName: name,
+        });
 
-      const emailSen = await sendEmailVerification(auth.currentUser);
-      console.log(emailSen);
+        const emailSen = await sendEmailVerification(auth.currentUser);
+        console.log(emailSen);
 
-      if (selectedImage == null) return;
-      const ImageRef = ref(storage, `ProfilePics/${selectedImage.name + v4()}`);
-      uploadBytes(ImageRef, selectedImage).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          updateProfile(result.user, {
-            photoURL: url,
-          });
-          addDoc(userCollectionRef, {
-            name: result.user.displayName.split(" ").join("_").trimEnd(),
-            email: result.user.email,
-            profilePhoto: url,
-            uid: result.user.uid,
+        if (selectedImage == null) return;
+        const ImageRef = ref(
+          storage,
+          `ProfilePics/${selectedImage.name + v4()}`
+        );
+        uploadBytes(ImageRef, selectedImage).then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            updateProfile(result.user, {
+              photoURL: url,
+            });
+            addDoc(userCollectionRef, {
+              name: result.user.displayName.split(" ").join("_").trimEnd(),
+              email: result.user.email,
+              profilePhoto: url,
+              uid: result.user.uid,
+            });
           });
         });
-      });
-      navigate("/");
-      toast.success("Registed successfully ");
-    } catch (err) {
-      if (err.code === "auth/email-already-in-use") {
-        toast.error("Email already in use");
-      } else {
-        toast.error(err.message);
+        navigate("/");
+        toast.success("Registed successfully ");
       }
+    } catch {
+      (err) => {
+        console.log(err);
+      };
     }
   };
 

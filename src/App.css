@@ -194,6 +194,16 @@ html {
   background: rgb(0, 106, 255);
 }
 
+input::file-selector-button {
+  font-weight: bold;
+  border-radius: 25px;
+  color: white;
+  background-color: gray;
+  padding: 0.5em;
+  border: thin solid grey;
+  border-radius: 3px;
+}
+
 .icon {
   cursor: pointer;
   margin-right: 15px;
