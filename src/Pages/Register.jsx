@@ -138,7 +138,11 @@ const Register = () => {
               />
             </Button>
           </section>
-          <button type="submit" className="Register-button">
+          <button
+            disabled={nameavailable == false}
+            type="submit"
+            className="Register-button"
+          >
             Register
           </button>
         </form>
