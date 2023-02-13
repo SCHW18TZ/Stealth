@@ -5,6 +5,8 @@ import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Navbar from "./Components/Navbar";
 import MyAccount from "./Pages/MyAccount";
+import CreatePost from "./Pages/CreatePost";
+import Reset from "./Pages/Reset";
 function App() {
   return (
     <Router>
@@ -13,6 +15,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/create" element={<CreatePost />} />
+        <Route path="/reset" element={<Reset />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route
           path="*"

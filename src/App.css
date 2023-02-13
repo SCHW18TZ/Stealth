@@ -3,6 +3,7 @@
 * {
   padding: 0;
   margin: 0;
+  color: white;
 }
 
 body {
@@ -23,6 +24,10 @@ html {
 
 .navbar .logo {
   margin-left: 50px;
+}
+
+.reset input {
+  color: black;
 }
 
 .navbar .logo img {
@@ -192,6 +197,16 @@ html {
 .Register-button:hover {
   color: white;
   background: rgb(0, 106, 255);
+}
+
+input::file-selector-button {
+  font-weight: bold;
+  border-radius: 25px;
+  color: white;
+  background-color: gray;
+  padding: 0.5em;
+  border: thin solid grey;
+  border-radius: 3px;
 }
 
 .icon {
