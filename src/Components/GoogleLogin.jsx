@@ -22,7 +22,7 @@ const GoogleLogin = () => {
       addDoc(userCollectionRef, {
         name: result.user.displayName.split(" ").join("_").trimEnd(),
         email: result.user.email,
-        profilePhoto: url,
+        profilePhoto: result.user.photoURL,
         uid: result.user.uid,
         createdAt: serverTimestamp(),
         verified: false,
