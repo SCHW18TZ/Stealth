@@ -25,7 +25,7 @@ const Register = () => {
     let q = query(userCollectionRef, where("name", "==", name));
     let querySnap = await getDocs(q);
     if (querySnap.size > 0) {
-      console.log("ALREADY HAI BABU");
+      return;
     } else {
       console.log("NASE NAME");
     }
@@ -40,40 +40,47 @@ const Register = () => {
       let q = query(userCollectionRef, where("name", "==", name));
       let querySnap = await getDocs(q);
       if (querySnap.size > 0) {
-        return;
+        toast.error("Username is already taken!");
       } else {
-        const result = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        updateProfile(result.user, {
-          displayName: name,
-        });
+        try {
+          const result = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          updateProfile(result.user, {
+            displayName: name,
+          });
 
-        const emailSen = await sendEmailVerification(auth.currentUser);
-        console.log(emailSen);
+          const emailSen = await sendEmailVerification(auth.currentUser);
 
-        if (selectedImage == null) return;
-        const ImageRef = ref(
-          storage,
-          `ProfilePics/${selectedImage.name + v4()}`
-        );
-        uploadBytes(ImageRef, selectedImage).then((snapshot) => {
-          getDownloadURL(snapshot.ref).then((url) => {
-            updateProfile(result.user, {
-              photoURL: url,
-            });
-            addDoc(userCollectionRef, {
-              name: result.user.displayName.split(" ").join("_").trimEnd(),
-              email: result.user.email,
-              profilePhoto: url,
-              uid: result.user.uid,
+          if (selectedImage == null) return;
+          const ImageRef = ref(
+            storage,
+            `ProfilePics/${selectedImage.name + v4()}`
+          );
+          uploadBytes(ImageRef, selectedImage).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+              updateProfile(result.user, {
+                photoURL: url,
+              });
+              addDoc(userCollectionRef, {
+                name: result.user.displayName.split(" ").join("_").trimEnd(),
+                email: result.user.email,
+                profilePhoto: url,
+                uid: result.user.uid,
+              });
             });
           });
-        });
-        navigate("/");
-        toast.success("Registed successfully ");
+          navigate("/");
+          toast.success("Registed successfully ");
+        } catch (err) {
+          if (err.code === "auth/email-already-in-use") {
+            toast.error("Email already in use");
+          } else if (err.code === "auth/weak-password") {
+            toast.error("Password should be atleast 6 characters long!");
+          }
+        }
       }
     } catch {
       (err) => {
