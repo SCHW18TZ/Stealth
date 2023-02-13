@@ -30,8 +30,8 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="authorized-list">
-            <Link to="/" className="links">
-              <button>Home</button>
+            <Link to="/create" className="links">
+              <button>Create Post</button>
             </Link>
             <Link to="/inbox" className="links">
               <button>Inbox</button>

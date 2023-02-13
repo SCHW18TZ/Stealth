@@ -7,6 +7,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -66,6 +67,9 @@ const Login = () => {
         </form>
       </div>
       <GoogleLogin />
+      <p>
+        Forgot your password? <Link to="/reset">Reset it here</Link>
+      </p>
     </div>
   );
 };

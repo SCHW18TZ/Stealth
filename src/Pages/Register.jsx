@@ -9,6 +9,7 @@ import {
   updateProfile,
   sendEmailVerification,
 } from "firebase/auth";
+import "datetime";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db } from "../firebase";
@@ -69,6 +70,7 @@ const Register = () => {
                 email: result.user.email,
                 profilePhoto: url,
                 uid: result.user.uid,
+                createdAt: new Date().toISOString().split("T")[0],
               });
             });
           });
