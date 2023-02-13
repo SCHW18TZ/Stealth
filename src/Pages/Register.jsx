@@ -127,6 +127,9 @@ const Register = () => {
         <div className="google-button-wrapper">
           <GoogleLogin />
         </div>
+        <p>
+          Already have an account? <Link to="/login">Login here</Link>
+        </p>
       </div>
     </div>
   );
