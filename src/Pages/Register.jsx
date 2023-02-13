@@ -13,8 +13,15 @@ import "datetime";
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db } from "../firebase";
-import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
-
+import {
+  serverTimestamp,
+  addDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { Link } from "react-router-dom";
 const Register = () => {
   const userCollectionRef = collection(db, "users");
   let navigate = useNavigate();
@@ -70,7 +77,7 @@ const Register = () => {
                 email: result.user.email,
                 profilePhoto: url,
                 uid: result.user.uid,
-                createdAt: new Date().toISOString().split("T")[0],
+                createdAt: serverTimestamp(),
               });
             });
           });
