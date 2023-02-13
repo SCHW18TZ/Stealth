@@ -5,9 +5,24 @@ import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Navbar from "./Components/Navbar";
 import MyAccount from "./Pages/MyAccount";
+import UserPage from "./pages/UserPage";
 import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebase";
+import { useEffect, useState } from "react";
 function App() {
+  const [userList, setUserList] = useState([]);
+  const userCollectionRef = collection(db, "users");
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(userCollectionRef);
+      setUserList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getUsers();
+  }, []);
+
   return (
     <Router>
       <Navbar />
@@ -22,6 +37,12 @@ function App() {
           path="*"
           element={<h1 className="NotFound">404: Not Found</h1>}
         />
+        {userList.map((user) => (
+          <Route
+            path={`/user/${user.uid}`}
+            element={<UserPage user={user} />}
+          />
+        ))}
       </Routes>
     </Router>
   );
