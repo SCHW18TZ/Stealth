@@ -228,13 +228,79 @@ html {
   border: none;
   outline: none;
   color: white;
+  transition: all ease 1s;
 }
 
 .file-input {
-  cursor: pointer;
+  width: 285px;
+  height: 50px;
+  margin: 20px 0;
+  border: 3px solid #fff;
+  border-radius: 30px;
+  transition: all ease 0.3s;
+}
+
+.file-input:hover {
+  border: 3px solid rgb(0, 106, 255);
+}
+
+.file-input .btn {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border-radius: 30px;
 }
 
 .google-button-wrapper {
   display: flex;
   justify-content: center;
+}
+
+.name-already-taken {
+  color: red;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  animation: shake 1s;
+}
+
+.hidden {
+  display: none;
+}
+
+.name-available {
+  color: lime;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  animation: popup 1s;
+}
+
+@keyframes shake {
+  0% {
+    margin: 0;
+  }
+  25% {
+    margin-right: 25px;
+  }
+  50% {
+    margin-left: 25px;
+  }
+  75% {
+    margin-right: 25px;
+  }
+  100% {
+    margin: 0;
+  }
+}
+
+@keyframes popup {
+  0% {
+    opacity: 0;
+    font-size: 1px;
+  }
+  100% {
+    font-size: 15px;
+    opacity: 1;
+  }
 }

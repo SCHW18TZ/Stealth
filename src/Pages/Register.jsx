@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import GoogleLogin from "../Components/GoogleLogin";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { auth, storage } from "../firebase";
 import {
   createUserWithEmailAndPassword,
@@ -13,21 +13,28 @@ import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db } from "../firebase";
 import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
+import Button from "@mui/material/Button";
 
 const Register = () => {
   const userCollectionRef = collection(db, "users");
   let navigate = useNavigate();
+  const [nameInput, setnameInput] = useState("");
+  const [nameavailable, setnameavailable] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const nameInputRef = useRef(null);
 
   const usernameQuery = async (e) => {
     const name = e.target.value;
-
+    setnameInput(name);
+    console.log(name);
     let q = query(userCollectionRef, where("name", "==", name));
     let querySnap = await getDocs(q);
     if (querySnap.size > 0) {
-      console.log("ALREADY HAI BABU");
+      setnameavailable(false);
+      console.log(nameInput);
     } else {
-      console.log("NASE NAME");
+      setnameavailable(true);
+      console.log(nameInput);
     }
   };
 
@@ -88,22 +95,39 @@ const Register = () => {
               onChange={usernameQuery}
             />
           </div>
+          {!nameavailable ? (
+            <p
+              className={`${
+                nameInput == "" ? "hidden" : ""
+              } name-already-taken`}
+            >
+              Name Already Taken
+            </p>
+          ) : (
+            <p className={`${nameInput == "" ? "hidden" : ""} name-available`}>
+              Name Available
+            </p>
+          )}
           <div>
             <input required type="email" placeholder="Email..." />
           </div>
           <div>
             <input required type="password" placeholder="password..." />
           </div>
-          <div className="file-input">
-            <input
-              required
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                setSelectedImage(e.target.files[0]);
-              }}
-            />
-          </div>
+          <section className="file-input">
+            <Button variant="contained" component="label" className="btn">
+              Upload Image
+              <input
+                hidden
+                required
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  setSelectedImage(e.target.files[0]);
+                }}
+              />
+            </Button>
+          </section>
           <button type="submit" className="Register-button">
             Register
           </button>
