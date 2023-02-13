@@ -75,6 +75,9 @@ const Register = () => {
             email: result.user.email,
             profilePhoto: url,
             uid: result.user.uid,
+            createdAt: serverTimestamp(),
+            verified: false,
+            roles: "Member",
           });
         });
       });
