@@ -13,6 +13,7 @@ import { db } from "./firebase";
 import { useEffect, useState } from "react";
 import Footer from "./Components/Footer";
 import ChatPage from "./Pages/ChatPage";
+import Inbox from "./Pages/Inbox";
 function App() {
   const [userList, setUserList] = useState([]);
   const [chatList, setChatList] = useState([]);
@@ -40,6 +41,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/create" element={<CreatePost />} />
         <Route path="/reset" element={<Reset />} />
+        <Route path="/inbox" element={<Inbox />} />
 
         <Route path="/myaccount" element={<MyAccount />} />
         {userList.map((user) => (
@@ -55,7 +57,7 @@ function App() {
           />
         ))}
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </Router>
   );
 }
