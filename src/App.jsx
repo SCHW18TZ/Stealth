@@ -33,6 +33,7 @@ function App() {
         <Route path="/create" element={<CreatePost />} />
         <Route path="/reset" element={<Reset />} />
         <Route path="/myaccount" element={<MyAccount />} />
+
         {userList.map((user) => (
           <Route
             path={`/user/${user.uid}`}
