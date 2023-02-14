@@ -5,7 +5,7 @@ import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Navbar from "./Components/Navbar";
 import MyAccount from "./Pages/MyAccount";
-import UserPage from "./pages/UserPage";
+import UserPage from "./Pages/UserPage";
 import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
 import { collection, getDocs } from "firebase/firestore";
