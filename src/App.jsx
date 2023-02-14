@@ -10,8 +10,9 @@ import SinglePost from "./Pages/SinglePost";
 import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "./firebase";
+
 function App() {
   const [posts, setposts] = useState([]);
   const [users, setusers] = useState([]);

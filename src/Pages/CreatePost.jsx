@@ -15,7 +15,7 @@ import { useState } from "react";
 const CreatePost = () => {
   const postCollectionRef = collection(db, "posts");
   const [selectedImage, setSelectedImage] = useState(null);
-  const [checkbox, setcheckbox] = useState([]);
+  const [checkbox, setcheckbox] = useState([""]);
 
   const [user] = useAuthState(auth);
   let navigate = useNavigate();
@@ -57,11 +57,7 @@ const CreatePost = () => {
               name: user.displayName,
               uid: user.uid,
             },
-            categories: {
-              coding: cat.includes("coding"),
-              gaming: cat.includes("gaming"),
-              Memes: cat.includes("Memes"),
-            },
+            categories: [checkbox],
           });
         });
       });
