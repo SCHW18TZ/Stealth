@@ -15,14 +15,20 @@ import Footer from "./Components/Footer";
 import ChatPage from "./Pages/ChatPage";
 function App() {
   const [userList, setUserList] = useState([]);
+  const [chatList, setChatList] = useState([]);
   const userCollectionRef = collection(db, "users");
-
+  const chatCollectionRef = collection(db, "ChatList");
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(userCollectionRef);
       setUserList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
+    const getChats = async () => {
+      const data = await getDocs(chatCollectionRef);
+      setChatList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
     getUsers();
+    getChats();
   }, []);
 
   return (
@@ -36,11 +42,16 @@ function App() {
         <Route path="/reset" element={<Reset />} />
 
         <Route path="/myaccount" element={<MyAccount />} />
-        <Route path="/chats" element={<ChatPage />} />
         {userList.map((user) => (
           <Route
             path={`/user/${user.uid}`}
             element={<UserPage userInfo={user} />}
+          />
+        ))}
+        {chatList.map((chat) => (
+          <Route
+            path={`/chat/${chat.ChatId}`}
+            element={<ChatPage chatInfo={chat} />}
           />
         ))}
       </Routes>
