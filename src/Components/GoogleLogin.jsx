@@ -26,6 +26,8 @@ const GoogleLogin = () => {
         createdAt: serverTimestamp(),
         verified: false,
         roles: "Member",
+        fullName: "",
+        bio: "",
       });
     }
   };
