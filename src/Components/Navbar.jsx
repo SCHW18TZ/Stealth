@@ -36,7 +36,7 @@ const Navbar = () => {
             <Link to="/inbox" className="links">
               <button>Inbox</button>
             </Link>
-            <Link to="/myaccount" className="links">
+            <Link to={`/user/${user.uid}`} className="links">
               <button>My Account</button>
             </Link>
             <button className="nav-log-out" onClick={LogUserOut}>

@@ -40,7 +40,7 @@ function App() {
         {userList.map((user) => (
           <Route
             path={`/user/${user.uid}`}
-            element={<UserPage user={user} />}
+            element={<UserPage userInfo={user} />}
           />
         ))}
       </Routes>

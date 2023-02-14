@@ -73,11 +73,13 @@ const Register = () => {
           addDoc(userCollectionRef, {
             name: result.user.displayName.split(" ").join("_").trimEnd(),
             email: result.user.email,
-            profilePhoto: url,
+            profilePhoto: result.user.photoURL,
             uid: result.user.uid,
             createdAt: serverTimestamp(),
             verified: false,
             roles: "Member",
+            fullName: "",
+            bio: "",
           });
         });
       });
@@ -138,7 +140,11 @@ const Register = () => {
               />
             </Button>
           </section>
-          <button type="submit" className="Register-button">
+          <button
+            disabled={nameavailable == false}
+            type="submit"
+            className="Register-button"
+          >
             Register
           </button>
         </form>

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@100&display=swap");
 
 * {
   padding: 0;
@@ -318,4 +319,81 @@ input::file-selector-button {
     font-size: 15px;
     opacity: 1;
   }
+}
+
+.edit-btn,
+.message-btn {
+  background: transparent;
+  border: 1px solid rgb(0, 106, 255);
+  color: white;
+  transition: all ease 0.5s;
+  padding: 15px 40px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.edit-btn:hover,
+.message-btn:hover {
+  color: white;
+  background: rgb(0, 106, 255);
+}
+
+.verified-icon {
+  width: 50px;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20vh;
+}
+
+.left-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 50px;
+}
+
+.profile-pic img {
+  border-radius: 50%;
+  width: 70px;
+}
+
+.username-container {
+  margin-left: 30px;
+}
+
+.username-container h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}
+
+.username-container p {
+  font-family: "Kanit", sans-serif;
+  font-weight: bold;
+}
+
+.middle-container {
+  text-align: center;
+}
+
+.middle-container h3 {
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 15px;
+}
+
+.middle-container p {
+  font-weight: bold;
+  font-family: "Kanit", sans-serif;
+}
+
+.right-container {
+  margin-right: 70px;
 }

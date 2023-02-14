@@ -4,15 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import { db, auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
-import {
-  addDoc,
-  query,
-  where,
-  getDocs,
-  collection,
-  serverTimestamp,
-} from "firebase/firestore";
-
+import { addDoc, query, where, getDocs, collection } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
 const GoogleLogin = () => {
   let navigate = useNavigate();
   const userCollectionRef = collection(db, "users");
@@ -26,11 +19,13 @@ const GoogleLogin = () => {
       return;
     } else {
       addDoc(userCollectionRef, {
-        name: result.user.displayName,
+        name: result.user.displayName.split(" ").join("_").trimEnd(),
         email: result.user.email,
         profilePhoto: result.user.photoURL,
         uid: result.user.uid,
         createdAt: serverTimestamp(),
+        verified: false,
+        roles: "Member",
       });
     }
   };
