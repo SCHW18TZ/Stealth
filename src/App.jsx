@@ -33,10 +33,6 @@ function App() {
         <Route path="/create" element={<CreatePost />} />
         <Route path="/reset" element={<Reset />} />
         <Route path="/myaccount" element={<MyAccount />} />
-        <Route
-          path="*"
-          element={<h1 className="NotFound">404: Not Found</h1>}
-        />
         {userList.map((user) => (
           <Route
             path={`/user/${user.uid}`}

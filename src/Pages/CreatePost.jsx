@@ -26,7 +26,11 @@ const CreatePost = () => {
   };
 
   const createPost = async (e) => {
-    const cat = checkbox;
+    console.log(e);
+    const coding = e.target[6].name;
+    const gaming = e.target[7].name;
+    const meme = e.target[8].name;
+    checkbox.push(coding, gaming, meme);
     e.preventDefault();
     const title = e.target[0].value;
     const description = e.target[2].value;
@@ -116,7 +120,7 @@ const CreatePost = () => {
                     type="checkbox"
                     name="coding"
                     id="coding"
-                    for="coding"
+                    htmlFor="coding"
                   />
                   <label htmlFor="coding">coding</label>
                   <input
@@ -124,7 +128,7 @@ const CreatePost = () => {
                     type="checkbox"
                     name="gaming"
                     id="gaming"
-                    for="gaming"
+                    htmlFor="gaming"
                   />
                   <label htmlFor="gaming">gaming</label>
                   <input
@@ -132,7 +136,7 @@ const CreatePost = () => {
                     type="checkbox"
                     name="Memes"
                     id="Memes"
-                    for="Memes"
+                    htmlFor="Memes"
                   />
                   <label htmlFor="Memes">Memes</label>
                 </div>
