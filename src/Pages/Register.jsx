@@ -64,7 +64,10 @@ const Register = () => {
       console.log(emailSen);
 
       if (selectedImage == null) return;
-      const ImageRef = ref(storage, `ProfilePics/${selectedImage.name + v4()}`);
+      const ImageRef = ref(
+        storage,
+        `ProfilePics/${selectedImage.name + result.user.displayName}`
+      );
       uploadBytes(ImageRef, selectedImage).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
           updateProfile(result.user, {

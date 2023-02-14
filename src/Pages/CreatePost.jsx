@@ -12,14 +12,21 @@ import { addDoc, collection } from "firebase/firestore";
 import { Toaster, toast } from "react-hot-toast";
 import { storage } from "../firebase";
 import { useState } from "react";
-
 const CreatePost = () => {
   const postCollectionRef = collection(db, "posts");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [checkbox, setcheckbox] = useState([]);
 
   const [user] = useAuthState(auth);
   let navigate = useNavigate();
+
+  const changeCheckBox = (e) => {
+    const meme = e.target[4].name;
+    console.log(meme);
+  };
+
   const createPost = async (e) => {
+    const cat = checkbox;
     e.preventDefault();
     const title = e.target[0].value;
     const description = e.target[2].value;
@@ -50,6 +57,11 @@ const CreatePost = () => {
               name: user.displayName,
               uid: user.uid,
             },
+            categories: {
+              coding: cat.includes("coding"),
+              gaming: cat.includes("gaming"),
+              Memes: cat.includes("Memes"),
+            },
           });
         });
       });
@@ -59,12 +71,13 @@ const CreatePost = () => {
     }
   };
 
+  console.log(checkbox);
   const sendVerification = async () => {
     const result = await sendEmailVerification(user);
     console.log(result);
   };
   return (
-    <div>
+    <div className="CreatePost">
       <Toaster />
       {user ? (
         user.emailVerified ? (
@@ -100,6 +113,34 @@ const CreatePost = () => {
                     onChange={(e) => setSelectedImage(e.target.files[0])}
                   />
                 </div>
+                <div>
+                  categories <br />
+                  <input
+                    onChange={(e) => setcheckbox(e.target.name)}
+                    type="checkbox"
+                    name="coding"
+                    id="coding"
+                    for="coding"
+                  />
+                  <label htmlFor="coding">coding</label>
+                  <input
+                    onChange={(e) => setcheckbox(e.target.name)}
+                    type="checkbox"
+                    name="gaming"
+                    id="gaming"
+                    for="gaming"
+                  />
+                  <label htmlFor="gaming">gaming</label>
+                  <input
+                    onChange={(e) => setcheckbox(e.target.name)}
+                    type="checkbox"
+                    name="Memes"
+                    id="Memes"
+                    for="Memes"
+                  />
+                  <label htmlFor="Memes">Memes</label>
+                </div>
+
                 <div className="buttonContainer">
                   <Button
                     type="submit"

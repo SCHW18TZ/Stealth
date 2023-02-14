@@ -8,6 +8,7 @@
 
 body {
   overflow: hidden;
+  background-color: white;
 }
 
 html {
@@ -318,4 +319,12 @@ input::file-selector-button {
     font-size: 15px;
     opacity: 1;
   }
+}
+
+.CreatePost {
+  height: 100vh;
+}
+
+.home {
+  background-color: white;
 }

@@ -26,7 +26,11 @@ const Home = () => {
   return (
     <div className="HomePage">
       <div>
-        <input type="text" onChange={(e) => setSearch(e.target.value)} />
+        <input
+          type="text"
+          placeholder="Search for posts"
+          onChange={(e) => setSearch(e.target.value)}
+        />
         {posts
           .filter((post) => {
             if (search == "") {
@@ -40,8 +44,6 @@ const Home = () => {
           .map((post) => (
             <div>
               <Link to={`/post/${post.id}`}>{post.title}</Link>
-              <h1>{post.title}</h1>
-              <img src={post?.image} alt="" />
             </div>
           ))}
       </div>
