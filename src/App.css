@@ -9,6 +9,7 @@
 
 body {
   overflow: hidden;
+  background-color: white;
 }
 
 html {
@@ -396,4 +397,11 @@ input::file-selector-button {
 
 .right-container {
   margin-right: 70px;
+}
+.CreatePost {
+  height: 100vh;
+}
+
+.home {
+  background-color: white;
 }

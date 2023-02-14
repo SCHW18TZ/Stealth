@@ -12,12 +12,12 @@ const UserPage = ({ userInfo }) => {
       <div className="profile-container">
         <div className="left-container">
           <div className="profile-pic">
-            <img src={userInfo.profilePhoto} alt="profile pic" />
+            <img src={userInfo?.profilePhoto} alt="profile pic" />
           </div>
           <div className="username-container">
             <h1>
-              {userInfo.name}
-              {userInfo.verified && (
+              {userInfo?.name}
+              {userInfo?.verified && (
                 <img
                   src={verifiedIcon}
                   alt="verified"
@@ -25,16 +25,16 @@ const UserPage = ({ userInfo }) => {
                 />
               )}
             </h1>
-            <p>{userInfo.roles}</p>
-            <p>Member Since {userInfo.createdAt.toDate().getFullYear()}</p>
+            <p>{userInfo?.roles}</p>
+            <p>Member Since {userInfo?.createdAt.toDate().getFullYear()}</p>
           </div>
         </div>
         <div className="middle-container">
-          <h3>{userInfo.fullName}</h3>
-          <p>{userInfo.bio}</p>
+          <h3>{userInfo?.fullName}</h3>
+          <p>{userInfo?.bio}</p>
         </div>
         <div className="right-container">
-          {userInfo.uid == user?.uid ? (
+          {userInfo?.uid == user?.uid ? (
             <Link to="/myaccount">
               <button className="edit-btn">Edit</button>
             </Link>
@@ -46,5 +46,4 @@ const UserPage = ({ userInfo }) => {
     </div>
   );
 };
-
 export default UserPage;
