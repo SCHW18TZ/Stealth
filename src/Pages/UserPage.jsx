@@ -3,10 +3,36 @@ import verifiedIcon from "../assets/verifiedIcon.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { Link, useNavigation } from "react-router-dom";
-
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  where,
+  getDocs,
+  query,
+} from "firebase/firestore";
+import { v4 } from "uuid";
 const UserPage = ({ userInfo }) => {
   const [user] = useAuthState(auth);
 
+  const addchat = async () => {
+    const ChatCollectionRef = collection(db, "ChatList");
+    let q = query(
+      ChatCollectionRef,
+      where("ChatId", "==", user.uid + userInfo.uid)
+    );
+    let querySnap = await getDocs(q);
+    if (querySnap.size > 0) {
+      return;
+    } else {
+      addDoc(ChatCollectionRef, {
+        users: [user.uid, userInfo.uid],
+        usernames: [user.displayName, userInfo.name],
+        createdAt: serverTimestamp(),
+        ChatId: user.uid + userInfo.uid,
+      });
+    }
+  };
   return (
     <div className="user-page-container">
       <div className="profile-container">
@@ -38,8 +64,12 @@ const UserPage = ({ userInfo }) => {
             <Link to="/myaccount">
               <button className="edit-btn">Edit</button>
             </Link>
+          ) : user ? (
+            <button className="message-btn" onClick={addchat}>
+              Message
+            </button>
           ) : (
-            <button className="message-btn">Message</button>
+            <p>jnl</p>
           )}
         </div>
       </div>

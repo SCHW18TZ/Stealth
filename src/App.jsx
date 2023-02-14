@@ -11,6 +11,8 @@ import Reset from "./Pages/Reset";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import { useEffect, useState } from "react";
+import Footer from "./Components/Footer";
+import ChatPage from "./Pages/ChatPage";
 function App() {
   const [userList, setUserList] = useState([]);
   const userCollectionRef = collection(db, "users");
@@ -32,8 +34,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/create" element={<CreatePost />} />
         <Route path="/reset" element={<Reset />} />
-        <Route path="/myaccount" element={<MyAccount />} />
 
+        <Route path="/myaccount" element={<MyAccount />} />
+        <Route path="/chats" element={<ChatPage />} />
         {userList.map((user) => (
           <Route
             path={`/user/${user.uid}`}
@@ -41,6 +44,7 @@ function App() {
           />
         ))}
       </Routes>
+      <Footer />
     </Router>
   );
 }
