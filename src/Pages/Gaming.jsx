@@ -18,7 +18,8 @@ import { toast } from "react-hot-toast";
 const Gaming = () => {
   // Function to get all posts from the database with gaming category
 
-  const [GamingPosts, setGamingPosts] = useState([""]);
+  const [GamingPosts, setGamingPosts] = useState([]);
+
   const getGamingPosts = async () => {
     const postsCollectionRef = collection(db, "posts");
     const queryPosts = query(
@@ -31,16 +32,43 @@ const Gaming = () => {
         posts.push({ ...doc.data(), id: doc.id });
       });
       setGamingPosts(posts);
-      console.log(GamingPosts);
     });
     return () => unsuscribe();
   };
 
   useEffect(() => {
-    getGamingPosts();
-    console.log(GamingPosts);
-  }, []);
-  return <div>Gaming</div>;
+    getGamingPosts()
+      .then(() => console.log(GamingPosts))
+      .catch(console.error);
+  }, [GamingPosts]);
+
+  return (
+    <div className="container">
+      <div className="row">
+        {GamingPosts.map((post) => (
+          <div className="col-md-4">
+            <div className="card mb-4 shadow-sm">
+              <div className="card-body">
+                <h5 className="card-title">{post.title}</h5>
+                <div className="d-flex justify-content-between align-items-center">
+                  <div className="btn-group">
+                    <Link to={`/post/${post.id}`}>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-secondary"
+                      >
+                        View
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Gaming;
