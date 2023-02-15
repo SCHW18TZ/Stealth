@@ -86,7 +86,7 @@ const Register = () => {
           });
         });
       });
-      navigate("/");
+      navigate("/myaccount");
       toast.success("Registed successfully");
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {

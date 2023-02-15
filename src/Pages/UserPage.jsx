@@ -35,7 +35,7 @@ const UserPage = ({ userInfo }) => {
         </div>
         <div className="right-container">
           {userInfo?.uid == user?.uid ? (
-            <Link to="/myaccount">
+            <Link to="/myaccount" state={{ userData: userInfo }}>
               <button className="edit-btn">Edit</button>
             </Link>
           ) : (

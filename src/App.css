@@ -359,7 +359,8 @@ input::file-selector-button {
 
 .profile-pic img {
   border-radius: 50%;
-  width: 70px;
+  width: 80px;
+  height: 80px;
 }
 
 .username-container {
@@ -404,4 +405,59 @@ input::file-selector-button {
 
 .home {
   background-color: white;
+}
+
+.MyAccount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.name-input,
+.email-input,
+.fullName-input,
+.bio-input {
+  width: 280px;
+  margin: 20px 0;
+  border: 2px solid #fff;
+  border-radius: 5px;
+}
+
+.name-input input,
+.email-input input,
+.fullName-input input,
+.bio-input input {
+  width: 100%;
+  height: 30%;
+  padding: 20px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+}
+
+.name-input input:disabled,
+.email-input input:disabled,
+.fullName-input input:disabled,
+.bio-input input:disabled {
+  color: white;
+  cursor: pointer;
+}
+
+.MyAccount form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.MyAccount form img {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+}
+
+.forgot-password {
+  margin: 20px 0;
 }
