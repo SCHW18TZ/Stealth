@@ -5,12 +5,14 @@ import { db, auth, provider } from "../firebase";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { toast } from "react-hot-toast";
-
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+  const Navigate = useNavigate();
   const [user] = useAuthState(auth);
   const LogUserOut = () => {
     signOut(auth);
     toast.success("Logged Out Successfully");
+    Navigate("/");
   };
 
   return (
