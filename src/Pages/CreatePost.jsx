@@ -21,19 +21,24 @@ const CreatePost = () => {
   let navigate = useNavigate();
 
   const changeCheckBox = (e) => {
-    const meme = e.target[4].name;
-    console.log(meme);
+    return;
   };
 
   const createPost = async (e) => {
-    console.log(e);
-    const coding = e.target[6].name;
-    const gaming = e.target[7].name;
-    const meme = e.target[8].name;
-    checkbox.push(coding, gaming, meme);
     e.preventDefault();
+
+    // Add selected categories to setCheckbox
+    const checkboxes = document.querySelectorAll(
+      "input[type=checkbox]:checked"
+    );
+    let categories = [];
+    checkboxes.forEach((checkbox) => {
+      categories.push(checkbox.value);
+    });
+    console.log(categories);
+
     const title = e.target[0].value;
-    const description = e.target[2].value;
+    const description = e.target[1].value;
     if (selectedImage == null) {
       addDoc(postCollectionRef, {
         title: title,
@@ -43,6 +48,7 @@ const CreatePost = () => {
           name: user.displayName,
           uid: user.uid,
         },
+        categories: categories,
       });
 
       navigate("/");
@@ -56,12 +62,12 @@ const CreatePost = () => {
           addDoc(postCollectionRef, {
             title: title,
             description: description,
+            categories: categories,
             image: url,
             author: {
               name: user.displayName,
               uid: user.uid,
             },
-            categories: [checkbox],
           });
         });
       });
@@ -81,77 +87,59 @@ const CreatePost = () => {
       <Toaster />
       {user ? (
         user.emailVerified ? (
-          <div>
-            <form onSubmit={createPost} className="RegisterForm">
-              <div className="inputContainer">
-                <div className="input">
-                  <TextField
-                    required
-                    id="outlined-basic"
-                    type="text"
-                    label="Title"
-                    variant="outlined"
-                  />
+          <div className="LoginPage">
+            <Toaster />
+            <div className="LoginForm">
+              <form onSubmit={createPost}>
+                <div className="email-input">
+                  <input type="text" placeholder="name..." />
                 </div>
-
-                <div className="input">
-                  <TextField
-                    required
-                    id="outlined-password-input"
-                    label="Description"
-                    type="text"
-                    autoComplete="current-password"
-                    multiline
-                    rows={4}
-                    className="text-field"
-                  />
+                <div className="password-input">
+                  <input placeholder="Description..." type="text" />
                 </div>
-                <div className="input">
+                <button type="submit" className="login-btn">
+                  Create Post
+                </button>
+                {/* Checkboxes for categories */}
+                <div className="checkboxes">
+                  <div className="checkbox">
+                    <input
+                      type="checkbox"
+                      name="coding"
+                      value={"coding"}
+                      onChange={changeCheckBox}
+                    />
+                    <label htmlFor="coding">Coding</label>
+                  </div>
+                  <div className="checkbox">
+                    <input
+                      type="checkbox"
+                      name="gaming"
+                      value={"gaming"}
+                      onChange={changeCheckBox}
+                    />
+                    <label htmlFor="gaming">Gaming</label>
+                  </div>
+                  <div className="checkbox">
+                    <input
+                      type="checkbox"
+                      name="meme"
+                      onChange={changeCheckBox}
+                      value={"meme"}
+                    />
+                    <label htmlFor="meme">Meme</label>
+                  </div>
+                </div>
+                <div className="image-input">
                   <input
-                    accept="image/*"
                     type="file"
-                    onChange={(e) => setSelectedImage(e.target.files[0])}
+                    onChange={(e) => {
+                      setSelectedImage(e.target.files[0]);
+                    }}
                   />
                 </div>
-                <div>
-                  categories <br />
-                  <input
-                    onChange={(e) => setcheckbox(e.target.name)}
-                    type="checkbox"
-                    name="coding"
-                    id="coding"
-                    htmlFor="coding"
-                  />
-                  <label htmlFor="coding">coding</label>
-                  <input
-                    onChange={(e) => setcheckbox(e.target.name)}
-                    type="checkbox"
-                    name="gaming"
-                    id="gaming"
-                    htmlFor="gaming"
-                  />
-                  <label htmlFor="gaming">gaming</label>
-                  <input
-                    onChange={(e) => setcheckbox(e.target.name)}
-                    type="checkbox"
-                    name="Memes"
-                    id="Memes"
-                    htmlFor="Memes"
-                  />
-                  <label htmlFor="Memes">Memes</label>
-                </div>
-
-                <div className="buttonContainer">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    className="SignInButton"
-                  >
-                    Make a post
-                  </Button>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         ) : (
           <div>

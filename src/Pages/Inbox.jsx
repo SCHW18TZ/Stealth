@@ -64,7 +64,11 @@ const Inbox = () => {
       {ChatList.map((chat) => (
         <div key={chat.id}>
           <Link to={`/chat/${chat.ChatId}`}>
-            <h2>{chat.usernames}</h2>
+            {user.uid === chat.users[0] ? (
+              <h2>{chat.usernames[1]}</h2>
+            ) : (
+              <h2>{chat.usernames[0]}</h2>
+            )}
           </Link>
         </div>
       ))}

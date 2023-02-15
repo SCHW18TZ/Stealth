@@ -13,12 +13,16 @@ import { db } from "./firebase";
 import { useEffect, useState } from "react";
 import Footer from "./Components/Footer";
 import ChatPage from "./Pages/ChatPage";
+import SinglePost from "./Pages/SinglePost";
 import Inbox from "./Pages/Inbox";
+import Gaming from "./Pages/Gaming";
 function App() {
   const [userList, setUserList] = useState([]);
   const [chatList, setChatList] = useState([]);
+  const [postList, setPostList] = useState([]);
   const userCollectionRef = collection(db, "users");
   const chatCollectionRef = collection(db, "ChatList");
+  const postCollectionRef = collection(db, "posts");
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(userCollectionRef);
@@ -28,6 +32,13 @@ function App() {
       const data = await getDocs(chatCollectionRef);
       setChatList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
+
+    const getPosts = async () => {
+      const data = await getDocs(postCollectionRef);
+      setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+
+    getPosts();
     getUsers();
     getChats();
   }, []);
@@ -42,6 +53,7 @@ function App() {
         <Route path="/create" element={<CreatePost />} />
         <Route path="/reset" element={<Reset />} />
         <Route path="/inbox" element={<Inbox />} />
+        <Route path="/category/gaming" element={<Gaming />} />
 
         <Route path="/myaccount" element={<MyAccount />} />
         {userList.map((user) => (
@@ -54,6 +66,13 @@ function App() {
           <Route
             path={`/chat/${chat.ChatId}`}
             element={<ChatPage chatInfo={chat} />}
+          />
+        ))}
+        {/* Dynamic routes for posts */}
+        {postList.map((post) => (
+          <Route
+            path={`/post/${post.id}`}
+            element={<SinglePost post={post} />}
           />
         ))}
       </Routes>

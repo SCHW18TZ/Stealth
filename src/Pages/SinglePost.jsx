@@ -72,10 +72,21 @@ const SinglePost = ({ post }) => {
     <div className="SinglePostPage">
       <Toaster />
       {/* Check if image exits and display it */}
-      {post.image && (
-        <img src={post.image} className="PostImage" height="200px" alt="post" />
+      {post?.image && (
+        <img
+          src={post?.image}
+          className="PostImage"
+          height="200px"
+          alt="post"
+        />
       )}
       <h1>{post.title}</h1>
+      <h3>Categories</h3>
+      {post.categories.map((category) => (
+        // add space in between categories
+        <Link to={`/category/${category}`}>{category + " "}</Link>
+      ))}
+
       <p>{post.description}</p>
       <Link to={`/user/${post.author.uid}`}>by {post.author.name}</Link>
       {post.author.uid == user?.uid && (

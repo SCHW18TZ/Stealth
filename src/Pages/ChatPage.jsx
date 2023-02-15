@@ -13,6 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const ChatPage = ({ chatInfo }) => {
   const [user] = useAuthState(auth);
@@ -50,6 +51,7 @@ const ChatPage = ({ chatInfo }) => {
         ChatId: chatInfo.ChatId,
       });
       setMessage("");
+      toast.success("new msg");
     } catch (error) {
       console.log(error);
     }
@@ -77,7 +79,7 @@ const ChatPage = ({ chatInfo }) => {
           >
             <p>{message.Message}</p>
             <p>
-              by @ <Link to={`/user/${message.sentBy}`}>{message.author}</Link>{" "}
+              by @ <Link to={`/user/${message.SentBy}`}>{message.author}</Link>{" "}
             </p>
           </div>
         );
