@@ -49,7 +49,6 @@ const SinglePost = ({ post }) => {
       await updateDoc(postDoc, {
         likes: arrayUnion(user.uid),
       });
-      //refresh page to update likes
       navigate(`/post/${post.id}`);
 
       toast.success("Post liked");

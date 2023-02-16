@@ -10,6 +10,9 @@ import {
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
+import { Notifications } from "react-push-notification";
+import addNotification from "react-push-notification";
+
 import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState, useEffect } from "react";
@@ -33,6 +36,20 @@ const ChatPage = ({ chatInfo }) => {
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
+      // check if the user is the sender
+      if (messages[messages.length - 1].SentBy !== user.uid) {
+        console.log("you received the message");
+        addNotification({
+          title: `New message from ${messages[messages.length - 1].author}`,
+          subtitle: "You have a new message",
+          message: messages[messages.length - 1].Message,
+          theme: "darkblue",
+          native: true, // when using native, your OS will handle theming.
+        });
+      } else {
+        console.log("you sent the message");
+      }
+
       setMessages(messages);
     });
 

@@ -57,7 +57,6 @@ const Inbox = () => {
 
   console.log(...ChatList);
   const chats = { ...ChatList };
-  console.log(chats);
   return (
     <div>
       {/* Map through all chats */}
