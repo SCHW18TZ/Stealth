@@ -10,7 +10,6 @@ import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
 import { db } from "./firebase";
 import { useEffect, useState } from "react";
-import Footer from "./Components/Footer";
 import ChatPage from "./Pages/ChatPage";
 import SinglePost from "./Pages/SinglePost";
 import Inbox from "./Pages/Inbox";
@@ -122,7 +121,6 @@ function App() {
           />
         ))}
       </Routes>
-      {/* <Footer /> */}
     </Router>
   );
 }

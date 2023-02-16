@@ -12,7 +12,7 @@
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
   background-color: white;
 }
 
@@ -363,7 +363,8 @@ input::file-selector-button {
 
 .profile-pic img {
   border-radius: 50%;
-  width: 70px;
+  width: 80px;
+  height: 80px;
 }
 
 .username-container {
@@ -450,4 +451,113 @@ input::file-selector-button {
   justify-content: center;
   align-items: center;
   color: black;
+}
+
+.MyAccount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.name-input,
+.email-input,
+.fullName-input,
+.bio-input {
+  width: 280px;
+  margin: 20px 0;
+  border: 2px solid #fff;
+  border-radius: 5px;
+}
+
+.name-input input,
+.email-input input,
+.fullName-input input,
+.bio-input input {
+  width: 100%;
+  height: 30%;
+  padding: 20px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+}
+
+.name-input input:disabled,
+.email-input input:disabled,
+.fullName-input input:disabled,
+.bio-input input:disabled {
+  color: white;
+  cursor: pointer;
+}
+
+.MyAccount form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.MyAccount form img {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+}
+
+.forgot-password {
+  margin: 20px 0;
+}
+
+.post-headings {
+  text-align: center;
+  margin: 30px 0px;
+  margin-left: 90px;
+  font-weight: bold;
+  font-family: poppins;
+}
+
+.post-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.posts {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid red;
+  width: 80%;
+  margin: 40px 0;
+  border-radius: 40px;
+  padding: 40px 20px;
+}
+
+.posts .left-post-container {
+  margin-left: 40px;
+}
+
+.posts .left-post-container img {
+  width: 200px;
+  height: 150px;
+  border-radius: 30px;
+}
+
+.posts .middle-post-container h1 {
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 20px;
+  font-size: 25px;
+}
+
+.posts .middle-post-container p {
+  font-weight: bold;
+  font-family: "Kanit", sans-serif;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.posts .right-post-container {
+  margin-right: 40px;
 }

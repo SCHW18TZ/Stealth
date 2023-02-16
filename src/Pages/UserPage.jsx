@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import verifiedIcon from "../assets/verifiedIcon.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
@@ -10,10 +10,31 @@ import {
   where,
   getDocs,
   query,
+  orderBy,
+  onSnapshot,
 } from "firebase/firestore";
 import { v4 } from "uuid";
 const UserPage = ({ userInfo }) => {
   const [user] = useAuthState(auth);
+  const [posts, setposts] = useState([]);
+
+  useEffect(() => {
+    const userCollectionRef = collection(db, "posts");
+    const queryMessages = query(
+      userCollectionRef,
+      where("author.uid", "==", userInfo.uid)
+    );
+
+    const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
+      let messages = [];
+      snapshot.forEach((doc) => {
+        messages.push({ ...doc.data(), id: doc.id });
+      });
+      setposts(messages);
+    });
+
+    return () => unsuscribe();
+  }, []);
 
   const addchat = async () => {
     const ChatCollectionRef = collection(db, "ChatList");
@@ -61,7 +82,7 @@ const UserPage = ({ userInfo }) => {
         </div>
         <div className="right-container">
           {userInfo?.uid == user?.uid ? (
-            <Link to="/myaccount">
+            <Link to="/myaccount" state={{ userData: userInfo }}>
               <button className="edit-btn">Edit</button>
             </Link>
           ) : user ? (
@@ -72,6 +93,25 @@ const UserPage = ({ userInfo }) => {
             <p>jnl</p>
           )}
         </div>
+      </div>
+      <div className="post-container">
+        <h1 className="post-headings">All Posts From {userInfo.name}</h1>
+        {posts.map((post) => (
+          <div className="posts">
+            <div className="left-post-container">
+              <img src={post.image} />
+            </div>
+            <div className="middle-post-container">
+              <h1>{post.title}</h1>
+              <p>{post.description.slice(0, 100)}</p>
+            </div>
+            <div className="right-post-container">
+              <Link to={`/post/${post.id}`}>
+                <button className="Sign-in-button">View</button>
+              </Link>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
