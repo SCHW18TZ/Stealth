@@ -406,6 +406,48 @@ input::file-selector-button {
   height: 100vh;
 }
 
-.home {
-  background-color: white;
+.HomePage {
+  background-color: #111111;
+}
+
+/* .post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
+
+/* Make a card for indivisual post on home page */
+
+.pt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.posts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 600px;
+  height: 300px;
+  background-color: gray;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #111111;
+}
+
+.pt {
+  margin-top: 350px;
+}
+
+.search {
+  background: #111111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
 }

@@ -46,22 +46,14 @@ const Gaming = () => {
     <div className="container">
       <div className="row">
         {GamingPosts.map((post) => (
-          <div className="col-md-4">
-            <div className="card mb-4 shadow-sm">
+          <div key={post.id} className="posts">
+            <div className="card">
               <div className="card-body">
                 <h5 className="card-title">{post.title}</h5>
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="btn-group">
-                    <Link to={`/post/${post.id}`}>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                    </Link>
-                  </div>
-                </div>
+                <p className="card-text">{post.description}</p>
+                <Link to={`/post/${post.id}`} className="btn btn-primary">
+                  Read more
+                </Link>
               </div>
             </div>
           </div>

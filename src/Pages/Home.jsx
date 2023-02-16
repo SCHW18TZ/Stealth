@@ -11,6 +11,9 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
 
+  // Make home page scrollable
+  document.body.style.overflow = "auto";
+
   const [user] = useAuthState(auth);
   let navigate = useNavigate();
 
@@ -22,13 +25,21 @@ const Home = () => {
 
     getPosts();
   }, []);
+  console.log(posts);
 
   return (
     <div className="HomePage">
-      <div>
-        <input type="text" onChange={(e) => setSearch(e.target.value)} />
-        {posts
+      <h1>All Posts</h1>
+      <div className="search">
+        <input
+          type="text"
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search for posts"
+        />
+      </div>
 
+      <div className="pt">
+        {posts
           .filter((post) => {
             if (search == "") {
               return post;
@@ -38,11 +49,24 @@ const Home = () => {
               return post;
             }
           })
-
           .map((post) => (
-            <div>
-              <Link to={`/post/${post.id}`}>{post.title}</Link>
+            <div className="posts">
+              <div className="post">
+                <img src={post?.image} height="200px" width="200px" alt="" />
+                <h1>{post.title}</h1>
+
+                <Link to={`/post/${post.id}`}>Click here</Link>
+              </div>
             </div>
+            // <div className="card">
+            //   <div className="card-body">
+            //     <h5 className="card-title">{post.title}</h5>
+            //     <p className="card-text">{post.description}</p>
+            //     <Link to={`/post/${post.id}`} className="btn btn-primary">
+            //       Read more
+            //     </Link>
+            //   </div>
+            // </div>
           ))}
       </div>
     </div>

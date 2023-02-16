@@ -5,8 +5,14 @@ import {
   collection,
   onSnapshot,
   orderBy,
+  getDoc,
   query,
+  setDoc,
+  updateDoc,
   where,
+  FieldValue,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
@@ -25,6 +31,30 @@ const SinglePost = ({ post }) => {
   const [commentText, setcommentText] = useState("");
   const [user] = useAuthState(auth);
   const [comments, setcomments] = useState([]);
+  const likeCollectionRef = collection(db, "likes");
+
+  const likepost = async () => {
+    // add likes to post collection
+    const postDoc = doc(db, "posts", post.id);
+    const postDocSnap = await getDoc(postDoc);
+    if (post?.likes.includes(user.uid)) {
+      await updateDoc(postDoc, {
+        likes: arrayRemove(user.uid),
+      });
+      //refresh page to update likes
+      navigate(`/post/${post.id}`);
+
+      toast.success("Post unliked");
+    } else {
+      await updateDoc(postDoc, {
+        likes: arrayUnion(user.uid),
+      });
+      //refresh page to update likes
+      navigate(`/post/${post.id}`);
+
+      toast.success("Post liked");
+    }
+  };
 
   useEffect(() => {
     const queryMessages = query(
@@ -88,6 +118,10 @@ const SinglePost = ({ post }) => {
       ))}
 
       <p>{post.description}</p>
+      <h3>likes</h3>
+      <p>{post.likes.length}</p>
+
+      <button onClick={likepost}>like </button>
       <Link to={`/user/${post.author.uid}`}>by {post.author.name}</Link>
       {post.author.uid == user?.uid && (
         <Button variant="primary" onClick={deletePost}>

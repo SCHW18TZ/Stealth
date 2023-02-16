@@ -42,6 +42,8 @@ const CreatePost = () => {
     if (selectedImage == null) {
       addDoc(postCollectionRef, {
         title: title,
+        likes: [],
+
         description: description,
         image: null,
         author: {
@@ -63,6 +65,7 @@ const CreatePost = () => {
             title: title,
             description: description,
             categories: categories,
+            likes: [],
             image: url,
             author: {
               name: user.displayName,
@@ -92,10 +95,10 @@ const CreatePost = () => {
             <div className="LoginForm">
               <form onSubmit={createPost}>
                 <div className="email-input">
-                  <input type="text" placeholder="name..." />
+                  <input required type="text" placeholder="name..." />
                 </div>
                 <div className="password-input">
-                  <input placeholder="Description..." type="text" />
+                  <input required placeholder="Description..." type="text" />
                 </div>
                 <button type="submit" className="login-btn">
                   Create Post
@@ -133,6 +136,8 @@ const CreatePost = () => {
                 <div className="image-input">
                   <input
                     type="file"
+                    accept="image/*"
+                    required
                     onChange={(e) => {
                       setSelectedImage(e.target.files[0]);
                     }}
