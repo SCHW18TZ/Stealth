@@ -8,14 +8,24 @@ import MyAccount from "./Pages/MyAccount";
 import UserPage from "./Pages/UserPage";
 import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
-import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import { useEffect, useState } from "react";
 import Footer from "./Components/Footer";
 import ChatPage from "./Pages/ChatPage";
 import SinglePost from "./Pages/SinglePost";
 import Inbox from "./Pages/Inbox";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  where,
+  getDocs,
+  query,
+  onSnapshot,
+  orderBy,
+} from "firebase/firestore";
 import Gaming from "./Pages/Gaming";
+
 function App() {
   const [userList, setUserList] = useState([]);
   const [chatList, setChatList] = useState([]);
@@ -41,6 +51,42 @@ function App() {
     getPosts();
     getUsers();
     getChats();
+    chatList.map((chat) => {
+      const messagesRef = collection(db, "Messages");
+      const queryMessages = query(
+        messagesRef,
+        where("ChatId", "==", chat.ChatId),
+        orderBy("createdAt")
+      );
+
+      const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
+        let messages = [];
+        snapshot.forEach((doc) => {
+          messages.push({ ...doc.data(), id: doc.id });
+        });
+        // check if the user is the sender
+        if (messages[messages.length - 1].SentBy !== user.uid) {
+          console.log("you received the message");
+          addNotification({
+            title: `New message from ${messages[messages.length - 1].author}`,
+            subtitle: "You have a new message",
+            message: messages[messages.length - 1].Message,
+            duration: 3000, //optional, default: 5000,
+            backgroundTop: "green", //optional, background color of top container.
+            backgroundBottom: "darkgreen", //optional, background color of bottom container.
+            colorTop: "green", //optional, font color of top container.
+            colorBottom: "darkgreen", //optional, font color of bottom container.
+            closeButton: "Go away", //optional, text or html/jsx element for close text. Default: Close,
+            theme: "red",
+            native: true, // when using native, your OS will handle theming.
+          });
+        } else {
+          console.log("you sent the message");
+        }
+      });
+
+      return () => unsuscribe();
+    });
   }, []);
 
   return (
