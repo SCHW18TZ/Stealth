@@ -4,9 +4,22 @@ import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-import { getDocs, collection } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  where,
+  getDocs,
+  query,
+  onSnapshot,
+  orderBy,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
+import addNotification from "react-push-notification";
+
 const Home = () => {
+  const [chatList, setChatList] = useState([]);
+
   const postCollectionRef = collection(db, "posts");
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");

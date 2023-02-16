@@ -8,7 +8,7 @@ import MyAccount from "./Pages/MyAccount";
 import UserPage from "./Pages/UserPage";
 import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
-import { db } from "./firebase";
+import { db, auth } from "./firebase";
 import { useEffect, useState } from "react";
 import ChatPage from "./Pages/ChatPage";
 import SinglePost from "./Pages/SinglePost";
@@ -23,10 +23,12 @@ import {
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
+import addNotification from "react-push-notification";
 import Gaming from "./Pages/Gaming";
-
+import { useAuthState } from "react-firebase-hooks/auth";
 function App() {
   const [userList, setUserList] = useState([]);
+  const [user] = useAuthState(auth);
   const [chatList, setChatList] = useState([]);
   const [postList, setPostList] = useState([]);
   const userCollectionRef = collection(db, "users");
@@ -50,6 +52,9 @@ function App() {
     getPosts();
     getUsers();
     getChats();
+  }, []);
+
+  setTimeout(() => {
     chatList.map((chat) => {
       const messagesRef = collection(db, "Messages");
       const queryMessages = query(
@@ -70,14 +75,14 @@ function App() {
             title: `New message from ${messages[messages.length - 1].author}`,
             subtitle: "You have a new message",
             message: messages[messages.length - 1].Message,
-            duration: 3000, //optional, default: 5000,
-            backgroundTop: "green", //optional, background color of top container.
-            backgroundBottom: "darkgreen", //optional, background color of bottom container.
-            colorTop: "green", //optional, font color of top container.
-            colorBottom: "darkgreen", //optional, font color of bottom container.
-            closeButton: "Go away", //optional, text or html/jsx element for close text. Default: Close,
+            duration: 3000,
+            backgroundTop: "green",
+            backgroundBottom: "darkgreen",
+            colorTop: "green",
+            colorBottom: "darkgreen",
+            closeButton: "Go away",
             theme: "red",
-            native: true, // when using native, your OS will handle theming.
+            native: true,
           });
         } else {
           console.log("you sent the message");
@@ -86,7 +91,7 @@ function App() {
 
       return () => unsuscribe();
     });
-  }, []);
+  }, 1000);
 
   return (
     <Router>
