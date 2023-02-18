@@ -25,6 +25,9 @@ import {
 } from "firebase/firestore";
 import addNotification from "react-push-notification";
 import Gaming from "./Pages/Gaming";
+import Coding from "./Pages/Coding";
+import Meme from "./Pages/Meme";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 function App() {
   const [userList, setUserList] = useState([]);
@@ -104,6 +107,8 @@ function App() {
         <Route path="/reset" element={<Reset />} />
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/category/gaming" element={<Gaming />} />
+        <Route path="/category/meme" element={<Meme />} />
+        <Route path="/category/coding" element={<Coding />} />
 
         <Route path="/myaccount" element={<MyAccount />} />
         {userList.map((user) => (
