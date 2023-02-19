@@ -561,3 +561,14 @@ input::file-selector-button {
 .posts .right-post-container {
   margin-right: 40px;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.pt {
+  margin-top: 350px;
+}

@@ -20,12 +20,13 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import SyncLoader from "react-spinners/SyncLoader";
 
 import Button from "react-bootstrap/Button";
 
 const SinglePost = ({ post }) => {
   let navigate = useNavigate();
-
+  const [Loading, setLoading] = useState(false);
   const postCollectionRef = collection(db, "posts");
   const commentsCollectionRef = collection(db, "comments");
   const [commentText, setcommentText] = useState("");
@@ -34,7 +35,6 @@ const SinglePost = ({ post }) => {
   const likeCollectionRef = collection(db, "likes");
 
   const likepost = async () => {
-    // add likes to post collection
     const postDoc = doc(db, "posts", post.id);
     const postDocSnap = await getDoc(postDoc);
     if (post?.likes.includes(user.uid)) {
@@ -56,19 +56,24 @@ const SinglePost = ({ post }) => {
   };
 
   useEffect(() => {
-    const queryMessages = query(
-      commentsCollectionRef,
-      where("postId", "==", post.id)
-    );
-    const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
-      let messages = [];
-      snapshot.forEach((doc) => {
-        messages.push({ ...doc.data(), id: doc.id });
+    const getpost = async () => {
+      setLoading(true);
+      const queryMessages = query(
+        commentsCollectionRef,
+        where("postId", "==", post.id)
+      );
+      setLoading(false);
+      const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
+        let messages = [];
+        snapshot.forEach((doc) => {
+          messages.push({ ...doc.data(), id: doc.id });
+        });
+        setcomments(messages);
       });
-      setcomments(messages);
-    });
 
-    return () => unsuscribe();
+      return () => unsuscribe();
+    };
+    getpost();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -98,72 +103,80 @@ const SinglePost = ({ post }) => {
   };
 
   return (
-    <div className="SinglePostPage">
-      <Toaster />
-      {/* Check if image exits and display it */}
-      {post?.image && (
-        <img
-          src={post?.image}
-          className="PostImage"
-          height="200px"
-          alt="post"
-        />
-      )}
-      <h1>{post.title}</h1>
-      <h3>Categories</h3>
-      {post.categories.map((category) => (
-        // add space in between categories
-        <Link to={`/category/${category}`}>{category + " "}</Link>
-      ))}
-
-      <p>{post.description}</p>
-      <h3>likes</h3>
-      <p>{post.likes.length}</p>
-
-      <button onClick={likepost}>like </button>
-      <Link to={`/user/${post.author.uid}`}>by {post.author.name}</Link>
-      {post.author.uid == user?.uid && (
-        <Button variant="primary" onClick={deletePost}>
-          Delete Post
-        </Button>
-      )}
-      <div className="comments">
-        {user ? (
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="type a comment"
-              value={commentText}
-              onChange={(e) => setcommentText(e.target.value)}
+    <div key={post} className="SinglePostPage">
+      {Loading ? (
+        <div className="loader">
+          <SyncLoader color="#f86c6b" />
+        </div>
+      ) : (
+        <div>
+          <Toaster />
+          {/* Check if image exits and display it */}
+          {post?.image && (
+            <img
+              src={post?.image}
+              className="PostImage"
+              height="200px"
+              alt="post"
             />
-            <Button variant="primary" type="submit">
-              Comment
-            </Button>
-          </form>
-        ) : (
-          <h1>Login to post comments</h1>
-        )}
+          )}
+          <h1>{post.title}</h1>
+          <h3>Categories</h3>
+          {post.categories.map((category) => (
+            // add space in between categories
+            <Link to={`/category/${category}`}>{category + " "}</Link>
+          ))}
 
-        <h1>Comments</h1>
-        {comments.map((comment) => (
-          <div>
-            <h2>{comment.comment}</h2>
-            <Link to={`/user/${comment.uid}`}>{comment.name}</Link>
-            {user?.uid == comment.uid ? (
-              <Button
-                variant="primary"
-                onClick={() => {
-                  deleteComment(comment.id);
-                }}
-              >
-                Delete Comment
-              </Button>
+          <p>{post.description}</p>
+          <h3>likes</h3>
+          <p>{post.likes.length}</p>
+
+          <button onClick={likepost}>like </button>
+          <Link to={`/user/${post.author.uid}`}>by {post.author.name}</Link>
+          {post.author.uid == user?.uid && (
+            <Button variant="primary" onClick={deletePost}>
+              Delete Post
+            </Button>
+          )}
+          <div className="comments">
+            {user ? (
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  placeholder="type a comment"
+                  value={commentText}
+                  onChange={(e) => setcommentText(e.target.value)}
+                />
+                <Button variant="primary" type="submit">
+                  Comment
+                </Button>
+              </form>
             ) : (
-              console.log("user")
+              <h1>Login to post comments</h1>
             )}
+
+            <h1>Comments</h1>
+            {comments.map((comment) => (
+              <div>
+                <h2>{comment.comment}</h2>
+                <Link to={`/user/${comment.uid}`}>{comment.name}</Link>
+                {user?.uid == comment.uid ? (
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      deleteComment(comment.id);
+                    }}
+                  >
+                    Delete Comment
+                  </Button>
+                ) : (
+                  console.log("user")
+                )}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

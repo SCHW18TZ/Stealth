@@ -31,6 +31,7 @@ import Meme from "./Pages/Meme";
 import { useAuthState } from "react-firebase-hooks/auth";
 function App() {
   const [userList, setUserList] = useState([]);
+  const [Loading, setLoading] = useState(false);
   const [user] = useAuthState(auth);
   const [chatList, setChatList] = useState([]);
   const [postList, setPostList] = useState([]);
@@ -39,17 +40,23 @@ function App() {
   const postCollectionRef = collection(db, "posts");
   useEffect(() => {
     const getUsers = async () => {
+      setLoading(true);
       const data = await getDocs(userCollectionRef);
       setUserList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
     };
     const getChats = async () => {
+      setLoading(true);
       const data = await getDocs(chatCollectionRef);
       setChatList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
     };
 
     const getPosts = async () => {
+      setLoading(true);
       const data = await getDocs(postCollectionRef);
       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
     };
 
     getPosts();
@@ -72,12 +79,11 @@ function App() {
           messages.push({ ...doc.data(), id: doc.id });
         });
         // check if the user is the sender
-        if (messages[messages.length - 1].SentBy !== user.uid) {
-          console.log("you received the message");
+        if (messages[messages.length - 1]?.SentBy !== user.uid) {
           addNotification({
-            title: `New message from ${messages[messages.length - 1].author}`,
+            title: `New message from ${messages[messages.length - 1]?.author}`,
             subtitle: "You have a new message",
-            message: messages[messages.length - 1].Message,
+            message: messages[messages.length - 1]?.Message,
             duration: 3000,
             backgroundTop: "green",
             backgroundBottom: "darkgreen",
@@ -88,7 +94,7 @@ function App() {
             native: true,
           });
         } else {
-          console.log("you sent the message");
+          return;
         }
       });
 
