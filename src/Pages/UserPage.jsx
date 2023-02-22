@@ -54,6 +54,12 @@ const UserPage = ({ userInfo }) => {
       });
     }
   };
+
+  // get all roles of user
+  const roles = userInfo.roles;
+
+  // loop through roles and log each role
+
   return (
     <div className="user-page-container">
       <div className="profile-container">
@@ -71,7 +77,7 @@ const UserPage = ({ userInfo }) => {
                   className="verified-icon"
                 />
               )}
-              // check if the array of roles contains developer
+
               {userInfo?.roles.includes("developer") && (
                 <img
                   src="https://img.icons8.com/ios-filled/50/000000/developer.png"
@@ -79,8 +85,25 @@ const UserPage = ({ userInfo }) => {
                   className="verified-icon"
                 />
               )}
+              {userInfo?.roles.includes("designer") && (
+                <img
+                  src="https://img.icons8.com/ios-filled/50/000000/designer.png"
+                  alt="designer"
+                  className="verified-icon"
+                />
+              )}
+              {userInfo?.roles.includes("owner") && (
+                <img
+                  src="https://www.adanigas.com/-/media/Project/AdaniGas/AboutUs/Board-Of-Directors/gautam-adani/Gautam_Adani_Chairman_Adani_Group.jpg?la=en&hash=BBD9E0EEF84B3D5DD1B2FFDD5BEFDB1C"
+                  alt="owner"
+                  className="verified-icon"
+                />
+              )}
             </h1>
-            <p>{userInfo?.roles}</p>
+            {userInfo?.roles.includes("developer") && <p>Developer</p>}
+            {userInfo?.roles.includes("designer") && <p>Designer</p>}
+            {userInfo?.roles.includes("owner") && <p>Owner</p>}
+
             <p>Member Since {userInfo?.createdAt.toDate().getFullYear()}</p>
           </div>
         </div>
