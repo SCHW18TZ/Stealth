@@ -3,10 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "public/main.js",
+  "homepage": "./",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
+    "build-electron": "yarn build && electron-builder -c.extraMetadata.main=build/main.js",
+    "electron:start": "wait-on tcp:3000 && electron .",
+    "start": "electron ."
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -38,8 +46,12 @@
     "react-spinners": "^0.13.8",
     "require": "^2.4.20",
     "styled-components": "^5.3.6",
+<<<<<<< HEAD
+    "use-sound": "^4.0.1",
+=======
     "twilio": "^4.7.2",
     "twilio-client": "^1.14.0",
+>>>>>>> 58941861e4311615ec3e5ebd4e34b9f7a9496767
     "uuid": "^9.0.0"
   },
   "devDependencies": {

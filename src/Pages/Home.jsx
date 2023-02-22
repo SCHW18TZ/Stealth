@@ -15,6 +15,8 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import addNotification from "react-push-notification";
 import RingLoader from "react-spinners/RingLoader";
 const Home = () => {
@@ -42,6 +44,46 @@ const Home = () => {
   }, []);
 
   return (
+    <div className="HomePage">
+      <header className="header">
+        <h1>Home</h1>
+        <div className="search">
+          <input
+            type="text"
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search for posts"
+          />
+          <FontAwesomeIcon icon={faSearch} color="white" className="icon" />
+        </div>
+      </header>
+      <div className="post-container">
+        {posts
+          .filter((post) => {
+            if (search == "") {
+              return post;
+            } else if (
+              post.title.toLowerCase().includes(search.toLowerCase())
+            ) {
+              return post;
+            }
+          })
+          .map((post) => (
+            <div className="posts">
+              <div className="left-post-container">
+                <img src={post.image} />
+              </div>
+              <div className="middle-post-container">
+                <h1>{post.title}</h1>
+                <p>{post.description.slice(0, 100)}</p>
+              </div>
+              <div className="right-post-container">
+                <Link to={`/post/${post.id}`}>
+                  <button className="Sign-in-button">View</button>
+                </Link>
+              </div>
+            </div>
+          ))}
+      </div>
     <div>
       {Loading ? (
         <div className="loading">
@@ -96,6 +138,7 @@ const Home = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

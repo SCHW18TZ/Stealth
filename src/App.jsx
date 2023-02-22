@@ -8,6 +8,8 @@ import MyAccount from "./Pages/MyAccount";
 import UserPage from "./Pages/UserPage";
 import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
+import { db } from "./firebase";
+import { useEffect, useRef, useState } from "react";
 import { db, auth } from "./firebase";
 import { useEffect, useState } from "react";
 import ChatPage from "./Pages/ChatPage";
@@ -58,7 +60,6 @@ function App() {
       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       setLoading(false);
     };
-
     getPosts();
     getUsers();
     getChats();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { db, auth } from "../firebase";
 import {
   collection,
@@ -10,18 +10,20 @@ import {
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
+import useSound from "use-sound";
 import { Notifications } from "react-push-notification";
 import addNotification from "react-push-notification";
-
+import messageRecieveSoung from "../assets/messageRecieveSoung.mp3";
 import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-
 const ChatPage = ({ chatInfo }) => {
   const [user] = useAuthState(auth);
   const [Message, setMessage] = useState("");
   const [Messages, setMessages] = useState([]);
+  const [sendAudio] = useSound(messageRecieveSoung);
+  const scrollRef = useRef();
 
   useEffect(() => {
     const messagesRef = collection(db, "Messages");
@@ -30,14 +32,15 @@ const ChatPage = ({ chatInfo }) => {
       where("ChatId", "==", chatInfo.ChatId),
       orderBy("createdAt")
     );
-
     const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
       let messages = [];
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
+        scrollRef.current.scrollIntoView();
       });
       // check if the user is the sender
       if (messages[messages.length - 1].SentBy !== user.uid) {
+        sendAudio();
         console.log("you received the message");
         addNotification({
           title: `New message from ${messages[messages.length - 1].author}`,
@@ -49,7 +52,6 @@ const ChatPage = ({ chatInfo }) => {
       } else {
         console.log("you sent the message");
       }
-
       setMessages(messages);
     });
 
@@ -58,6 +60,7 @@ const ChatPage = ({ chatInfo }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (Message == "") return;
     try {
       const MessageCollectionRef = collection(db, "Messages");
       addDoc(MessageCollectionRef, {
@@ -69,6 +72,7 @@ const ChatPage = ({ chatInfo }) => {
       });
       setMessage("");
       toast.success("new msg");
+      sendAudio();
     } catch (error) {
       console.log(error);
     }
@@ -76,6 +80,32 @@ const ChatPage = ({ chatInfo }) => {
 
   return (
     <div className="ChatPage">
+      {Messages.map((message) => {
+        return (
+          <div
+            className={`message ${
+              message.SentBy === user.uid ? "sent" : "received"
+            }`}
+          >
+            <p>{message.Message}</p>
+            <p>
+              by @ <Link to={`/user/${message.SentBy}`}>{message.author}</Link>{" "}
+            </p>
+          </div>
+        );
+      })}
+      <div ref={scrollRef} />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Type a message"
+          value={Message}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+        />
+        <button type="submit">Send a message</button>
+      </form>
       {user ? (
         user.emailVerified ? (
           <div className="ChatPage">
