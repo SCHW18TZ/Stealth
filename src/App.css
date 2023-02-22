@@ -566,3 +566,7 @@ input::file-selector-button {
   color: white;
   transition: all ease 1s;
 }
+
+.pt {
+  margin-top: 350px;
+}

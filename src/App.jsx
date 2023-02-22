@@ -10,6 +10,8 @@ import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
 import { db } from "./firebase";
 import { useEffect, useRef, useState } from "react";
+import { db, auth } from "./firebase";
+import { useEffect, useState } from "react";
 import ChatPage from "./Pages/ChatPage";
 import SinglePost from "./Pages/SinglePost";
 import Inbox from "./Pages/Inbox";
@@ -23,10 +25,16 @@ import {
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
+import addNotification from "react-push-notification";
 import Gaming from "./Pages/Gaming";
+import Coding from "./Pages/Coding";
+import Meme from "./Pages/Meme";
 
+import { useAuthState } from "react-firebase-hooks/auth";
 function App() {
   const [userList, setUserList] = useState([]);
+  const [Loading, setLoading] = useState(false);
+  const [user] = useAuthState(auth);
   const [chatList, setChatList] = useState([]);
   const [postList, setPostList] = useState([]);
   const userCollectionRef = collection(db, "users");
@@ -34,21 +42,30 @@ function App() {
   const postCollectionRef = collection(db, "posts");
   useEffect(() => {
     const getUsers = async () => {
+      setLoading(true);
       const data = await getDocs(userCollectionRef);
       setUserList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
     };
     const getChats = async () => {
+      setLoading(true);
       const data = await getDocs(chatCollectionRef);
       setChatList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
     };
 
     const getPosts = async () => {
+      setLoading(true);
       const data = await getDocs(postCollectionRef);
       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
     };
     getPosts();
     getUsers();
     getChats();
+  }, []);
+
+  setTimeout(() => {
     chatList.map((chat) => {
       const messagesRef = collection(db, "Messages");
       const queryMessages = query(
@@ -63,29 +80,28 @@ function App() {
           messages.push({ ...doc.data(), id: doc.id });
         });
         // check if the user is the sender
-        if (messages[messages.length - 1].SentBy !== user.uid) {
-          console.log("you received the message");
+        if (messages[messages.length - 1]?.SentBy !== user.uid) {
           addNotification({
-            title: `New message from ${messages[messages.length - 1].author}`,
+            title: `New message from ${messages[messages.length - 1]?.author}`,
             subtitle: "You have a new message",
-            message: messages[messages.length - 1].Message,
-            duration: 3000, //optional, default: 5000,
-            backgroundTop: "green", //optional, background color of top container.
-            backgroundBottom: "darkgreen", //optional, background color of bottom container.
-            colorTop: "green", //optional, font color of top container.
-            colorBottom: "darkgreen", //optional, font color of bottom container.
-            closeButton: "Go away", //optional, text or html/jsx element for close text. Default: Close,
+            message: messages[messages.length - 1]?.Message,
+            duration: 3000,
+            backgroundTop: "green",
+            backgroundBottom: "darkgreen",
+            colorTop: "green",
+            colorBottom: "darkgreen",
+            closeButton: "Go away",
             theme: "red",
-            native: true, // when using native, your OS will handle theming.
+            native: true,
           });
         } else {
-          console.log("you sent the message");
+          return;
         }
       });
 
       return () => unsuscribe();
     });
-  }, []);
+  }, 1000);
 
   return (
     <Router>
@@ -98,6 +114,8 @@ function App() {
         <Route path="/reset" element={<Reset />} />
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/category/gaming" element={<Gaming />} />
+        <Route path="/category/meme" element={<Meme />} />
+        <Route path="/category/coding" element={<Coding />} />
 
         <Route path="/myaccount" element={<MyAccount />} />
         {userList.map((user) => (

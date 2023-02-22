@@ -106,6 +106,55 @@ const ChatPage = ({ chatInfo }) => {
         />
         <button type="submit">Send a message</button>
       </form>
+      {user ? (
+        user.emailVerified ? (
+          <div className="ChatPage">
+            <form onSubmit={handleSubmit}>
+              <input
+                required
+                type="text"
+                placeholder="Type a message"
+                value={Message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                }}
+              />
+              <button type="submit">Send a message</button>
+            </form>
+            {Messages.map((message) => {
+              return (
+                <div
+                  className={`message ${
+                    message.SentBy === user.uid ? "sent" : "received"
+                  }`}
+                >
+                  <p>{message.Message}</p>
+                  <p>
+                    by @{" "}
+                    <Link to={`/user/${message.SentBy}`}>{message.author}</Link>{" "}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div>
+            <h1>Please verify your email</h1>
+            <button
+              onClick={() => {
+                sendEmailVerification(user);
+              }}
+            >
+              Send verification email
+            </button>
+          </div>
+        )
+      ) : (
+        <div>
+          <h1>Please login</h1>
+          <Link to="/login">Login</Link>
+        </div>
+      )}
     </div>
   );
 };

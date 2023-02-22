@@ -59,18 +59,23 @@ const Inbox = () => {
   const chats = { ...ChatList };
   return (
     <div>
-      {/* Map through all chats */}
-      {ChatList.map((chat) => (
-        <div key={chat.id}>
-          <Link to={`/chat/${chat.ChatId}`}>
-            {user.uid === chat.users[0] ? (
-              <h2>{chat.usernames[1]}</h2>
-            ) : (
-              <h2>{chat.usernames[0]}</h2>
-            )}
-          </Link>
-        </div>
-      ))}
+      {user && user.emailVerified ? (
+        ChatList.map((chat) => (
+          <div key={chat.id}>
+            <Link to={`/chat/${chat.ChatId}`}>
+              {user.uid === chat.users[0] ? (
+                <h2>{chat.usernames[1]}</h2>
+              ) : (
+                <h2>{chat.usernames[0]}</h2>
+              )}
+            </Link>
+          </div>
+        ))
+      ) : (
+        <h1>
+          You need to login and verify your email first to see your inboxes
+        </h1>
+      )}
     </div>
   );
 };

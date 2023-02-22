@@ -21,14 +21,18 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import Button from "@mui/material/Button";
+import SyncLoader from "react-spinners/SyncLoader";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Register = () => {
   const userCollectionRef = collection(db, "users");
+  const [Loading, setLoading] = useState(false);
   let navigate = useNavigate();
   const [nameInput, setnameInput] = useState("");
   const [nameavailable, setnameavailable] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const nameInputRef = useRef(null);
+  const [user, loading, error] = useAuthState(auth);
 
   const usernameQuery = async (e) => {
     const name = e.target.value;
@@ -46,6 +50,7 @@ const Register = () => {
   };
 
   const RegisterUser = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const name = e.target[0].value;
     const email = e.target[1].value;
@@ -88,73 +93,85 @@ const Register = () => {
       });
       navigate("/myaccount");
       toast.success("Registed successfully");
+      setLoading(false);
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
         toast.error("Email already in use");
       } else {
         toast.error(err.message);
       }
+      setLoading(false);
     }
   };
 
   return (
     <div className="RegisterPage">
-      <Toaster />
-      <div className="RegisterForm">
-        <form onSubmit={RegisterUser}>
-          <div>
-            <input
-              required
-              type="text"
-              placeholder="Username..."
-              onChange={usernameQuery}
-            />
+      {user ? (
+        navigate("/myaccount")
+      ) : (
+        <>
+          <Toaster />
+          <div className="RegisterForm">
+            <form onSubmit={RegisterUser}>
+              <div>
+                <input
+                  required
+                  type="text"
+                  placeholder="Username..."
+                  onChange={usernameQuery}
+                />
+              </div>
+              {!nameavailable ? (
+                <p
+                  className={`${
+                    nameInput == "" ? "hidden" : ""
+                  } name-already-taken`}
+                >
+                  Name Already Taken
+                </p>
+              ) : (
+                <p
+                  className={`${
+                    nameInput == "" ? "hidden" : ""
+                  } name-available`}
+                >
+                  Name Available
+                </p>
+              )}
+              <div>
+                <input required type="email" placeholder="Email..." />
+              </div>
+              <div>
+                <input required type="password" placeholder="password..." />
+              </div>
+              <section className="file-input">
+                <Button variant="contained" component="label" className="btn">
+                  Upload Image
+                  <input
+                    hidden
+                    required
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      setSelectedImage(e.target.files[0]);
+                    }}
+                  />
+                </Button>
+              </section>
+              <button
+                disabled={nameavailable == false}
+                type="submit"
+                className="Register-button"
+              >
+                {Loading ? <SyncLoader /> : <p>Sign Up</p>}
+              </button>
+            </form>
+            <div className="google-button-wrapper">
+              <GoogleLogin />
+            </div>
           </div>
-          {!nameavailable ? (
-            <p
-              className={`${
-                nameInput == "" ? "hidden" : ""
-              } name-already-taken`}
-            >
-              Name Already Taken
-            </p>
-          ) : (
-            <p className={`${nameInput == "" ? "hidden" : ""} name-available`}>
-              Name Available
-            </p>
-          )}
-          <div>
-            <input required type="email" placeholder="Email..." />
-          </div>
-          <div>
-            <input required type="password" placeholder="password..." />
-          </div>
-          <section className="file-input">
-            <Button variant="contained" component="label" className="btn">
-              Upload Image
-              <input
-                hidden
-                required
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  setSelectedImage(e.target.files[0]);
-                }}
-              />
-            </Button>
-          </section>
-          <button
-            disabled={nameavailable == false}
-            type="submit"
-            className="Register-button"
-          >
-            Register
-          </button>
-        </form>
-        <div className="google-button-wrapper">
-          <GoogleLogin />
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };
