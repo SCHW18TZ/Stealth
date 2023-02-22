@@ -48,6 +48,7 @@ const Register = () => {
       console.log(nameInput);
     }
   };
+  console.log(selectedImage);
 
   const RegisterUser = async (e) => {
     setLoading(true);
@@ -65,33 +66,35 @@ const Register = () => {
         displayName: name,
       });
 
-      const emailSen = await sendEmailVerification(auth.currentUser);
-      console.log(emailSen);
+      const sendEmail = await sendEmailVerification(auth.currentUser);
+      console.log(sendEmail);
 
       if (selectedImage == null) return;
-      const ImageRef = ref(
-        storage,
-        `ProfilePics/${selectedImage.name + result.user.displayName}`
-      );
-      uploadBytes(ImageRef, selectedImage).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          updateProfile(result.user, {
-            photoURL: url,
-          });
-          addDoc(userCollectionRef, {
-            name: result.user.displayName.split(" ").join("_").trimEnd(),
-            email: result.user.email,
-            profilePhoto: result.user.photoURL,
-            uid: result.user.uid,
-            createdAt: serverTimestamp(),
-            verified: false,
-            roles: "Member",
-            fullName: "",
-            bio: "",
+      else {
+        const ImageRef = ref(
+          storage,
+          `ProfilePics/${selectedImage.name + result.user.displayName}`
+        );
+        uploadBytes(ImageRef, selectedImage).then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            updateProfile(result.user, {
+              photoURL: url,
+            });
+            addDoc(userCollectionRef, {
+              name: result.user.displayName.split(" ").join("_").trimEnd(),
+              email: result.user.email,
+              profilePhoto: url,
+              uid: result.user.uid,
+              createdAt: serverTimestamp(),
+              verified: false,
+              roles: "Member",
+              fullName: "",
+              bio: "",
+            });
           });
         });
-      });
-      navigate("/myaccount");
+      }
+
       toast.success("Registed successfully");
       setLoading(false);
     } catch (err) {
@@ -107,7 +110,7 @@ const Register = () => {
   return (
     <div className="RegisterPage">
       {user ? (
-        navigate("/myaccount")
+        <h1>lol</h1>
       ) : (
         <>
           <Toaster />
