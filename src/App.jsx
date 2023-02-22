@@ -78,7 +78,7 @@ function App() {
         snapshot.forEach((doc) => {
           messages.push({ ...doc.data(), id: doc.id });
         });
-        // check if the user is the sender
+
         if (messages[messages.length - 1]?.SentBy !== user.uid) {
           addNotification({
             title: `New message from ${messages[messages.length - 1]?.author}`,
