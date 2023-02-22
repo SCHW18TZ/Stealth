@@ -79,7 +79,7 @@ const Home = () => {
                 </div>
                 <div className="middle-post-container">
                   <h1>{post?.title}</h1>
-                  <p>{post?.description.slice(0, 100)}</p>
+                  <p>{post?.description}</p>
                 </div>
                 <div className="right-post-container">
                   <Link to={`/post/${post.id}`}>
