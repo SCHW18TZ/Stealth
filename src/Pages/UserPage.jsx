@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import verifiedIcon from "../assets/verifiedIcon.png";
+import developerIcon from "../assets/developerIcon.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { Link, useNavigation } from "react-router-dom";
@@ -80,7 +81,8 @@ const UserPage = ({ userInfo }) => {
 
               {userInfo?.roles.includes("developer") && (
                 <img
-                  src="https://img.icons8.com/ios-filled/50/000000/developer.png"
+                  style={{ width: '"20px"', height: "20px", color: "white" }}
+                  src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Circle-icons-dev.svg"
                   alt="developer"
                   className="verified-icon"
                 />
