@@ -67,7 +67,7 @@ const Home = () => {
               if (search == "") {
                 return post;
               } else if (
-                post.title.toLowerCase().includes(search.toLowerCase())
+                post?.title.toLowerCase().includes(search.toLowerCase())
               ) {
                 return post;
               }
@@ -75,11 +75,11 @@ const Home = () => {
             .map((post) => (
               <div className="posts">
                 <div className="left-post-container">
-                  <img src={post.image} />
+                  <img src={post?.image} />
                 </div>
                 <div className="middle-post-container">
-                  <h1>{post.title}</h1>
-                  <p>{post.description.slice(0, 100)}</p>
+                  <h1>{post?.title}</h1>
+                  <p>{post?.description.slice(0, 100)}</p>
                 </div>
                 <div className="right-post-container">
                   <Link to={`/post/${post.id}`}>
