@@ -9,7 +9,7 @@ import UserPage from "./Pages/UserPage";
 import CreatePost from "./Pages/CreatePost";
 import Reset from "./Pages/Reset";
 import { db } from "./firebase";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatPage from "./Pages/ChatPage";
 import SinglePost from "./Pages/SinglePost";
 import Inbox from "./Pages/Inbox";
@@ -46,7 +46,6 @@ function App() {
       const data = await getDocs(postCollectionRef);
       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
-
     getPosts();
     getUsers();
     getChats();

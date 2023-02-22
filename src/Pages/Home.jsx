@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { getDocs, collection } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
   const postCollectionRef = collection(db, "posts");
   const [posts, setPosts] = useState([]);
@@ -29,16 +31,18 @@ const Home = () => {
 
   return (
     <div className="HomePage">
-      <h1>All Posts</h1>
-      <div className="search">
-        <input
-          type="text"
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search for posts"
-        />
-      </div>
-
-      <div className="pt">
+      <header className="header">
+        <h1>Home</h1>
+        <div className="search">
+          <input
+            type="text"
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search for posts"
+          />
+          <FontAwesomeIcon icon={faSearch} color="white" className="icon" />
+        </div>
+      </header>
+      <div className="post-container">
         {posts
           .filter((post) => {
             if (search == "") {
@@ -51,22 +55,19 @@ const Home = () => {
           })
           .map((post) => (
             <div className="posts">
-              <div className="post">
-                <img src={post?.image} height="200px" width="200px" alt="" />
+              <div className="left-post-container">
+                <img src={post.image} />
+              </div>
+              <div className="middle-post-container">
                 <h1>{post.title}</h1>
-
-                <Link to={`/post/${post.id}`}>Click here</Link>
+                <p>{post.description.slice(0, 100)}</p>
+              </div>
+              <div className="right-post-container">
+                <Link to={`/post/${post.id}`}>
+                  <button className="Sign-in-button">View</button>
+                </Link>
               </div>
             </div>
-            // <div className="card">
-            //   <div className="card-body">
-            //     <h5 className="card-title">{post.title}</h5>
-            //     <p className="card-text">{post.description}</p>
-            //     <Link to={`/post/${post.id}`} className="btn btn-primary">
-            //       Read more
-            //     </Link>
-            //   </div>
-            // </div>
           ))}
       </div>
     </div>
