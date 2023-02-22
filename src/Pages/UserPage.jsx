@@ -71,6 +71,14 @@ const UserPage = ({ userInfo }) => {
                   className="verified-icon"
                 />
               )}
+              // check if the array of roles contains developer
+              {userInfo?.roles.includes("developer") && (
+                <img
+                  src="https://img.icons8.com/ios-filled/50/000000/developer.png"
+                  alt="developer"
+                  className="verified-icon"
+                />
+              )}
             </h1>
             <p>{userInfo?.roles}</p>
             <p>Member Since {userInfo?.createdAt.toDate().getFullYear()}</p>

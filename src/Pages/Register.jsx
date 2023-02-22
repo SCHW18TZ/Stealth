@@ -87,14 +87,14 @@ const Register = () => {
               uid: result.user.uid,
               createdAt: serverTimestamp(),
               verified: false,
-              roles: "Member",
+              roles: ["Member"],
               fullName: "",
               bio: "",
             });
           });
         });
       }
-
+      navigate("/myaccount");
       toast.success("Registed successfully");
       setLoading(false);
     } catch (err) {
@@ -110,7 +110,7 @@ const Register = () => {
   return (
     <div className="RegisterPage">
       {user ? (
-        <h1>lol</h1>
+        <h1>You are already Logged in</h1>
       ) : (
         <>
           <Toaster />
