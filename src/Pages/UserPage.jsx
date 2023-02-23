@@ -7,18 +7,24 @@ import { Link, useNavigation } from "react-router-dom";
 import {
   collection,
   addDoc,
+  doc,
+  arrayUnion,
+  getDoc,
+  arrayRemove,
   serverTimestamp,
   where,
   getDocs,
   query,
   orderBy,
   onSnapshot,
+  updateDoc,
 } from "firebase/firestore";
 import { v4 } from "uuid";
+import { toast, Toaster } from "react-hot-toast";
 const UserPage = ({ userInfo }) => {
   const [user] = useAuthState(auth);
   const [posts, setposts] = useState([]);
-
+  const [Following, setFollowing] = useState(false);
   useEffect(() => {
     const userCollectionRef = collection(db, "posts");
     const queryMessages = query(
@@ -59,10 +65,69 @@ const UserPage = ({ userInfo }) => {
   // get all roles of user
   const roles = userInfo.roles;
 
+  // const UnFollowUser = async () => {
+  //   try {
+  //     const userCollectionRef = collection(db, "users");
+  //     const queryMessages = query(
+  //       userCollectionRef,
+  //       where("following", "array-contains", userInfo.uid)
+  //     );
+  //     const querySnap = await getDocs(queryMessages);
+  //     querySnap.forEach(async (doc) => {
+  //       const userDoc = doc.id;
+  //       await updateDoc(doc.ref, {
+  //         followers: arrayRemove(user.uid),
+  //       });
+  //     });
+  //   } catch (err) {
+  //     toast.error("Something went wrong" + err.message);
+  //     console.log(err);
+  //   }
+  // };
+
+  const FollowUser = async () => {
+    try {
+      // query to get the user document
+
+      const userCollectionRef = collection(db, "users");
+      const queryMessages = query(
+        userCollectionRef,
+        where("uid", "==", userInfo.uid)
+      );
+      const querySnap = await getDocs(queryMessages);
+      querySnap.forEach(async (doc) => {
+        const userDoc = doc.id;
+        // update the user document to add the current user to the followers array
+        await updateDoc(doc.ref, {
+          followers: arrayUnion(user.uid),
+        });
+      });
+
+      const currentUserQuery = query(
+        userCollectionRef,
+        where("uid", "==", user.uid)
+      );
+      const CurrectUserQuerySnap = await getDocs(currentUserQuery);
+      CurrectUserQuerySnap.forEach(async (doc) => {
+        const CurrentUser = doc.id;
+        await updateDoc(doc.ref, {
+          following: arrayUnion(userInfo.uid),
+        });
+      });
+
+      toast.success("Followed");
+      setFollowing(true);
+    } catch (err) {
+      toast.error("Something went wrong" + err.message);
+      console.log(err);
+    }
+  };
+
   // loop through roles and log each role
 
   return (
     <div className="user-page-container">
+      <Toaster />
       <div className="profile-container">
         <div className="left-container">
           <div className="profile-pic">
@@ -119,9 +184,18 @@ const UserPage = ({ userInfo }) => {
               <button className="edit-btn">Edit</button>
             </Link>
           ) : user ? (
-            <button className="message-btn" onClick={addchat}>
-              Message
-            </button>
+            <>
+              <button className="message-btn" onClick={addchat}>
+                Message
+              </button>
+              {!Following ? (
+                <button className="message-btn">Unfollow</button>
+              ) : (
+                <button onClick={FollowUser} classname="message-btn">
+                  Follow
+                </button>
+              )}
+            </>
           ) : (
             <p>jnl</p>
           )}

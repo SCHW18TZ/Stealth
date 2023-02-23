@@ -90,6 +90,8 @@ const Register = () => {
               roles: ["Member"],
               fullName: "",
               bio: "",
+              followers: [],
+              following: [],
             });
           });
         });

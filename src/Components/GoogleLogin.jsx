@@ -28,6 +28,8 @@ const GoogleLogin = () => {
         roles: "Member",
         fullName: "",
         bio: "",
+        followers: [],
+        following: [],
       });
     }
   };
