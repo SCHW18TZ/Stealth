@@ -105,6 +105,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
+        <Route path="*" element={<h1>404</h1>} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

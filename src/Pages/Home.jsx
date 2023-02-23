@@ -80,6 +80,10 @@ const Home = () => {
                 <div className="middle-post-container">
                   <h1>{post?.title}</h1>
                   <p>{post?.description}</p>
+                  <Link to={`/user/${post.author.uid}`}>
+                    {" "}
+                    by @{post?.author.name}
+                  </Link>
                 </div>
                 <div className="right-post-container">
                   <Link to={`/post/${post.id}`}>
