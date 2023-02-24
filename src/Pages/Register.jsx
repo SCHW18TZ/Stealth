@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
-import GoogleLogin from "../Components/GoogleLogin";
+import GoogleLogin from "../components/GoogleLogin";
 import { useState, useRef } from "react";
 import { auth, storage } from "../firebase";
 import {

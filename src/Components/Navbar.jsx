@@ -14,34 +14,34 @@ const Navbar = () => {
     toast.success("Logged Out Successfully");
     Navigate("/");
   };
-
+  
   return (
-    <nav className="navbar">
+    <nav className="bg-black text-blue-50 flex items-center px-20 border-b-2 border-gray-900">
       <a href="/" className="logo">
         <img src={Logo} alt="logo" />
       </a>
-      <ul className="list-items">
+      <ul className="list-items ml-auto">
         {!user ? (
-          <div className="unauthorized-list">
-            <Link to="/login" className="links">
-              <button className="Sign-in-button">Sign In</button>
+          <div>
+            <Link to="/login" className="">
+              <button className="bg-[#2b825b] mx-2 px-3 py-2 rounded-md tracking-widest">Sign In</button>
             </Link>
-            <Link to="/register" className="links">
-              <button className="Sign-up-button">Sign Up</button>
+            <Link to="/register" className="">
+              <button className="bg-[#2b825b] mx-2 px-3 py-2 rounded-md tracking-widest">Sign Up</button>
             </Link>
           </div>
         ) : (
-          <div className="authorized-list">
-            <Link to="/create" className="links">
-              <button>Create Post</button>
+          <div className="">
+            <Link to="/create">
+              <button className="bg-[#2b825b] mx-2 px-3 py-2 rounded-md tracking-widest">Create Post</button>
             </Link>
-            <Link to="/inbox" className="links">
-              <button>Inbox</button>
+            <Link to="/inbox" className="links bg-[#2b825b] mx-2 px-3 py-2 rounded-md tracking-widest">
+              <button className="bg-[#2b825b] mx-2 px-3 py-2 rounded-md tracking-widest">Inbox</button>
             </Link>
-            <Link to={`/user/${user.uid}`} className="links">
-              <button>My Account</button>
+            <Link to={`/user/${user.uid}`} className="bg-[#2b825b] mx-2 px-3 py-2 rounded-md tracking-widest">
+              <button className="bg-[#2b825b] mx-2 px-3 py-2 rounded-md tracking-widest">My Account</button>
             </Link>
-            <button className="nav-log-out" onClick={LogUserOut}>
+            <button className="nav-log-out bg-[#2b825b] mx-2 px-3 py-2 rounded-md tracking-widest" onClick={LogUserOut}>
               Log Out
             </button>
           </div>
