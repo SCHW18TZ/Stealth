@@ -574,3 +574,10 @@ input::file-selector-button {
 .message-btn {
   margin-right: 10px;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}

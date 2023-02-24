@@ -96,7 +96,7 @@ const Register = () => {
           });
         });
       }
-      navigate("/myaccount");
+      navigate("/");
       toast.success("Registed successfully");
       setLoading(false);
     } catch (err) {
