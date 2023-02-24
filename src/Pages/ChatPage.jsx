@@ -84,6 +84,13 @@ const ChatPage = ({ chatInfo }) => {
     }
   };
 
+  // log all variables to the console which are used in the return statement
+
+  console.log("user", user);
+  console.log("Message", Message);
+  console.log("Messages", Messages);
+  console.log("Loading", Loading);
+
   return (
     <div>
       {Loading ? (
