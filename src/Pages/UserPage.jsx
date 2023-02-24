@@ -25,7 +25,43 @@ const UserPage = ({ userInfo }) => {
   const [user] = useAuthState(auth);
   const [posts, setposts] = useState([]);
   const [Following, setFollowing] = useState(false);
+  const [Followers, setFollowers] = useState(
+    userInfo.followers ? userInfo.followers.length : 0
+  );
+
+  const getFollowers = async () => {
+    const userCollectionRef = collection(db, "users");
+    const queryMessages = query(
+      userCollectionRef,
+      where("following", "array-contains", userInfo.uid)
+    );
+    const querySnap = await getDocs(queryMessages);
+    setFollowers(querySnap.docs.length);
+  };
+
   useEffect(() => {
+    getFollowers();
+    const CheckFollowing = async () => {
+      // This function checks if the current user is following the user on the page
+      const userCollectionRef = collection(db, "users");
+      const queryMessages = query(
+        userCollectionRef,
+        where("uid", "==", user.uid)
+      );
+      const querySnap = await getDocs(queryMessages);
+      console.log(querySnap);
+      querySnap.forEach(async (doc) => {
+        if (doc.data().following.includes(userInfo.uid)) {
+          console.log("following");
+          setFollowing(true);
+        } else {
+          console.log("not following");
+          setFollowing(false);
+        }
+      });
+    };
+    CheckFollowing();
+
     const userCollectionRef = collection(db, "posts");
     const queryMessages = query(
       userCollectionRef,
@@ -65,25 +101,40 @@ const UserPage = ({ userInfo }) => {
   // get all roles of user
   const roles = userInfo.roles;
 
-  // const UnFollowUser = async () => {
-  //   try {
-  //     const userCollectionRef = collection(db, "users");
-  //     const queryMessages = query(
-  //       userCollectionRef,
-  //       where("following", "array-contains", userInfo.uid)
-  //     );
-  //     const querySnap = await getDocs(queryMessages);
-  //     querySnap.forEach(async (doc) => {
-  //       const userDoc = doc.id;
-  //       await updateDoc(doc.ref, {
-  //         followers: arrayRemove(user.uid),
-  //       });
-  //     });
-  //   } catch (err) {
-  //     toast.error("Something went wrong" + err.message);
-  //     console.log(err);
-  //   }
-  // };
+  const UnFollowUser = async () => {
+    try {
+      // remove the current user from the following array of the user document
+      const userCollectionRef = collection(db, "users");
+      const queryMessages = query(
+        userCollectionRef,
+        where("uid", "==", userInfo.uid)
+      );
+
+      const querySnap = await getDocs(queryMessages);
+      querySnap.forEach(async (doc) => {
+        const userDoc = doc.id;
+        await updateDoc(doc.ref, {
+          followers: arrayRemove(user.uid),
+        });
+      });
+
+      const currentUserQuery = query(
+        userCollectionRef,
+        where("uid", "==", user.uid)
+      );
+      const CurrectUserQuerySnap = await getDocs(currentUserQuery);
+      CurrectUserQuerySnap.forEach(async (doc) => {
+        const CurrentUser = doc.id;
+        await updateDoc(doc.ref, {
+          following: arrayRemove(userInfo.uid),
+        });
+      });
+      toast.success("Unfollowed");
+      setFollowing(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const FollowUser = async () => {
     try {
@@ -166,6 +217,7 @@ const UserPage = ({ userInfo }) => {
                   className="verified-icon"
                 />
               )}
+              <p>Followers: {Followers}</p>
             </h1>
             {userInfo?.roles.includes("developer") && <p>Developer</p>}
             {userInfo?.roles.includes("designer") && <p>Designer</p>}
@@ -185,16 +237,20 @@ const UserPage = ({ userInfo }) => {
             </Link>
           ) : user ? (
             <>
+              {Following !== true ? (
+                <button onClick={FollowUser} className="message-btn">
+                  Follow
+                </button>
+              ) : (
+                <>
+                  <button onClick={UnFollowUser} className="message-btn">
+                    Unfollow
+                  </button>
+                </>
+              )}
               <button className="message-btn" onClick={addchat}>
                 Message
               </button>
-              {!Following ? (
-                <button className="message-btn">Unfollow</button>
-              ) : (
-                <button onClick={FollowUser} classname="message-btn">
-                  Follow
-                </button>
-              )}
             </>
           ) : (
             <p>jnl</p>

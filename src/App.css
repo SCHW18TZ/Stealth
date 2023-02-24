@@ -570,3 +570,7 @@ input::file-selector-button {
 .pt {
   margin-top: 350px;
 }
+
+.message-btn {
+  margin-right: 10px;
+}
