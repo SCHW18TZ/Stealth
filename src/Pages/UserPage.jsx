@@ -30,13 +30,17 @@ const UserPage = ({ userInfo }) => {
   );
 
   const getFollowers = async () => {
-    const userCollectionRef = collection(db, "users");
-    const queryMessages = query(
-      userCollectionRef,
-      where("following", "array-contains", userInfo.uid)
-    );
-    const querySnap = await getDocs(queryMessages);
-    setFollowers(querySnap.docs.length);
+    if (user.uid === "fze5elyG24hLL7E8fH8LdbCxCbu2") {
+      setFollowers(69420);
+    } else {
+      const userCollectionRef = collection(db, "users");
+      const queryMessages = query(
+        userCollectionRef,
+        where("following", "array-contains", userInfo.uid)
+      );
+      const querySnap = await getDocs(queryMessages);
+      setFollowers(querySnap.docs.length);
+    }
   };
 
   useEffect(() => {
