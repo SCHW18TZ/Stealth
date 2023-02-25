@@ -135,6 +135,13 @@ function App() {
             element={<SinglePost post={post} />}
           />
         ))}
+        <Route
+          path="*"
+          element={<h1>404</h1>}
+          loader={(x) => {
+            console.log("404 params:", x.params);
+          }}
+        />
       </Routes>
     </Router>
   );

@@ -49,6 +49,7 @@ const Home = () => {
         <h1>Home</h1>
         <div className="search">
           <input
+            className="search-input"
             type="text"
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search for posts"
@@ -80,6 +81,10 @@ const Home = () => {
                 <div className="middle-post-container">
                   <h1>{post?.title}</h1>
                   <p>{post?.description}</p>
+                  <Link to={`/user/${post.author.uid}`}>
+                    {" "}
+                    by @{post?.author.name}
+                  </Link>
                 </div>
                 <div className="right-post-container">
                   <Link to={`/post/${post.id}`}>

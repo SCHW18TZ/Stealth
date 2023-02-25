@@ -12,7 +12,7 @@ const GoogleLogin = () => {
 
   const LoginWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
-    navigate(`/user/${result.user.uid}`);
+    navigate(`/`);
     let q = query(userCollectionRef, where("uid", "==", result.user.uid));
     let querySnap = await getDocs(q);
     if (querySnap.size > 0) {
@@ -28,6 +28,8 @@ const GoogleLogin = () => {
         roles: "Member",
         fullName: "",
         bio: "",
+        followers: [],
+        following: [],
       });
     }
   };

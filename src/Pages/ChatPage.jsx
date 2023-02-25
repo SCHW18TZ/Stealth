@@ -18,14 +18,20 @@ import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
+import RingLoader from "react-spinners/RingLoader";
+
 const ChatPage = ({ chatInfo }) => {
+  const refresh = () => window.location.reload(true);
+
   const [user] = useAuthState(auth);
   const [Message, setMessage] = useState("");
   const [Messages, setMessages] = useState([]);
   const [sendAudio] = useSound(messageRecieveSoung);
   const scrollRef = useRef();
+  const [Loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const messagesRef = collection(db, "Messages");
     const queryMessages = query(
       messagesRef,
@@ -36,16 +42,15 @@ const ChatPage = ({ chatInfo }) => {
       let messages = [];
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
-        scrollRef.current.scrollIntoView();
       });
       // check if the user is the sender
-      if (messages[messages.length - 1].SentBy !== user.uid) {
+      if (messages[messages.length - 1]?.SentBy !== user.uid) {
         sendAudio();
         console.log("you received the message");
         addNotification({
-          title: `New message from ${messages[messages.length - 1].author}`,
+          title: `New message from ${messages[messages.length - 1]?.author}`,
           subtitle: "You have a new message",
-          message: messages[messages.length - 1].Message,
+          message: messages[messages.length - 1]?.Message,
           theme: "darkblue",
           native: true, // when using native, your OS will handle theming.
         });
@@ -53,6 +58,7 @@ const ChatPage = ({ chatInfo }) => {
         console.log("you sent the message");
       }
       setMessages(messages);
+      setLoading(false);
     });
 
     return () => unsuscribe();
@@ -79,80 +85,64 @@ const ChatPage = ({ chatInfo }) => {
   };
 
   return (
-    <div className="ChatPage">
-      {Messages.map((message) => {
-        return (
-          <div
-            className={`message ${
-              message.SentBy === user.uid ? "sent" : "received"
-            }`}
-          >
-            <p>{message.Message}</p>
-            <p>
-              by @ <Link to={`/user/${message.SentBy}`}>{message.author}</Link>{" "}
-            </p>
-          </div>
-        );
-      })}
-      <div ref={scrollRef} />
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Type a message"
-          value={Message}
-          onChange={(e) => {
-            setMessage(e.target.value);
-          }}
-        />
-        <button type="submit">Send a message</button>
-      </form>
-      {user ? (
-        user.emailVerified ? (
-          <div className="ChatPage">
-            <form onSubmit={handleSubmit}>
-              <input
-                required
-                type="text"
-                placeholder="Type a message"
-                value={Message}
-                onChange={(e) => {
-                  setMessage(e.target.value);
-                }}
-              />
-              <button type="submit">Send a message</button>
-            </form>
-            {Messages.map((message) => {
-              return (
-                <div
-                  className={`message ${
-                    message.SentBy === user.uid ? "sent" : "received"
-                  }`}
-                >
-                  <p>{message.Message}</p>
-                  <p>
-                    by @{" "}
-                    <Link to={`/user/${message.SentBy}`}>{message.author}</Link>{" "}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div>
-            <h1>Please verify your email</h1>
-            <button
-              onClick={() => {
-                sendEmailVerification(user);
-              }}
-            >
-              Send verification email
-            </button>
-          </div>
-        )
+    <div>
+      {Loading ? (
+        <div className="loading">
+          <RingLoader color="#00BFFF" loading={Loading} size={150} />
+        </div>
       ) : (
-        <div>
-          <h1>Please login</h1>
-          <Link to="/login">Login</Link>
+        <div className="ChatPage">
+          {user ? (
+            user.emailVerified ? (
+              <div className="ChatPage">
+                <form onSubmit={handleSubmit}>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Type a message"
+                    value={Message}
+                    onChange={(e) => {
+                      setMessage(e.target.value);
+                    }}
+                  />
+                  <button type="submit">Send a message</button>
+                </form>
+                {Messages.map((message) => {
+                  return (
+                    <div
+                      className={`message ${
+                        message.SentBy === user.uid ? "sent" : "received"
+                      }`}
+                    >
+                      <p>{message.Message}</p>
+                      <p>
+                        by @{" "}
+                        <Link to={`/user/${message.SentBy}`}>
+                          {message.author}
+                        </Link>{" "}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div>
+                <h1>Please verify your email</h1>
+                <button
+                  onClick={() => {
+                    sendEmailVerification(user);
+                  }}
+                >
+                  Send verification email
+                </button>
+              </div>
+            )
+          ) : (
+            <div>
+              <h1>Please login</h1>
+              <Link to="/login">Login</Link>
+            </div>
+          )}
         </div>
       )}
     </div>

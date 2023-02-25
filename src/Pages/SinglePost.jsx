@@ -26,7 +26,7 @@ import Button from "react-bootstrap/Button";
 
 const SinglePost = ({ post }) => {
   let navigate = useNavigate();
-  const [Loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState(true);
   const postCollectionRef = collection(db, "posts");
   const commentsCollectionRef = collection(db, "comments");
   const [commentText, setcommentText] = useState("");

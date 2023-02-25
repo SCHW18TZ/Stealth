@@ -90,11 +90,13 @@ const Register = () => {
               roles: ["Member"],
               fullName: "",
               bio: "",
+              followers: [],
+              following: [],
             });
           });
         });
       }
-      navigate("/myaccount");
+      navigate("/");
       toast.success("Registed successfully");
       setLoading(false);
     } catch (err) {
