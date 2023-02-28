@@ -581,3 +581,9 @@ input::file-selector-button {
   align-items: center;
   height: 80vh;
 }
+
+a {
+  text-decoration: none;
+  color: white;
+  font-family: "poppoins", sans-serif;
+}
