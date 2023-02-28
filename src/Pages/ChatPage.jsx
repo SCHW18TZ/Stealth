@@ -72,9 +72,10 @@ const ChatPage = ({ chatInfo }) => {
       addDoc(MessageCollectionRef, {
         Message: Message,
         createdAt: serverTimestamp(),
-        SentBy: user.uid,
         author: user.displayName,
         ChatId: chatInfo.ChatId,
+        SentBy: user.uid,
+        photoUrl: user.photoURL,
       });
       setMessage("");
       toast.success("new msg");
@@ -94,36 +95,40 @@ const ChatPage = ({ chatInfo }) => {
         <div className="ChatPage">
           {user ? (
             user.emailVerified ? (
-              <div className="ChatPage">
+              <div className="ChatContainer">
                 <form onSubmit={handleSubmit}>
                   <input
                     required
                     type="text"
-                    placeholder="Type a message"
                     value={Message}
+                    placeholder="Type a message"
                     onChange={(e) => {
                       setMessage(e.target.value);
                     }}
                   />
                   <button type="submit">Send a message</button>
                 </form>
-                {Messages.map((message) => {
-                  return (
-                    <div
-                      className={`message ${
-                        message.SentBy === user.uid ? "sent" : "received"
-                      }`}
-                    >
-                      <p>{message.Message}</p>
-                      <p>
-                        by @{" "}
-                        <Link to={`/user/${message.SentBy}`}>
-                          {message.author}
-                        </Link>{" "}
-                      </p>
-                    </div>
-                  );
-                })}
+                <div className="messages">
+                  {Messages.map((message) => {
+                    return (
+                      <div
+                        className={`message${
+                          message.SentBy === user.uid ? "-sent" : "received"
+                        }`}
+                      >
+                        <p className="singleMessage">
+                          {" "}
+                          <img
+                            className="Author-photo"
+                            src={`${message.photoUrl}`}
+                            alt=""
+                          />
+                          {message.Message}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             ) : (
               <div>

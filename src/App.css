@@ -716,3 +716,106 @@ a {
 .GoogleLogin p {
   margin-bottom: 10px;
 }
+
+/* Chat page styles */
+
+/* Make input and button go at the bottom */
+.ChatPage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.ChatContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.ChatPage form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.ChatPage form input {
+  flex: 1;
+  color: black;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.ChatPage form button {
+  display: inline-block;
+  align-self: flex-end;
+  border: none;
+  outline: none;
+  background: #111111;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.ChatPage form button:hover {
+  background: #111111;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px 0;
+}
+
+.message-sent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.message-sent p {
+  background: #111111;
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 0 10px;
+}
+
+.message-received {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.message-received p {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  background: #111111;
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 0 10px;
+}
+
+.singleMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+img {
+  margin-top: 20px;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
