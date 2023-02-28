@@ -38,7 +38,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       {LoadingUser ? (
-        <div className="loading-navbar">
+        <div className="loading-navbar ">
           <SyncLoader color="#fff" size={10} />
         </div>
       ) : (

@@ -178,6 +178,7 @@ html {
 }
 
 .login-page-container {
+  font-family: "poppins", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -195,8 +196,8 @@ html {
 
 .login-card {
   background: transparent;
-  width: 500px;
-  height: 500px;
+  width: 55vh;
+  height: 55vh;
   border-radius: 20px;
   box-shadow: inset 0px 0px 100px 250px rgba(255, 255, 255, 0.2);
   display: flex;
@@ -264,6 +265,7 @@ html {
   background-size: 100% 100%;
   width: 200px;
   height: 40px;
+  margin-bottom: 50px;
   border-radius: 50px;
   border: none;
   outline: none;
@@ -703,4 +705,14 @@ a {
   align-items: center;
   height: 100%;
   width: 100%;
+}
+
+.GoogleLogin {
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.GoogleLogin p {
+  margin-bottom: 10px;
 }
