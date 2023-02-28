@@ -24,10 +24,10 @@ const Navbar = () => {
         {!user ? (
           <div className="unauthorized-list">
             <Link to="/login" className="links">
-              <button className="Sign-in-button">Sign In</button>
+              <button className="Tilted-button">Sign In</button>
             </Link>
             <Link to="/register" className="links">
-              <button className="Sign-up-button">Sign Up</button>
+              <button className="Tilted-button invert">Sign Up</button>
             </Link>
           </div>
         ) : (

@@ -33,46 +33,65 @@ const Login = () => {
   };
 
   return (
-    <div className="LoginPage">
+    // <div className="LoginPage">
+    //   <Toaster />
+    //   <div className="LoginForm">
+    //     <form onSubmit={SignUserIn}>
+    //       <div className="email-input">
+    //         <input type="email" placeholder="Email..." />
+    //       </div>
+    //       <div className="password-input">
+    //         <input
+    //           placeholder="password..."
+    //           type={`${!showpassword ? "text" : "password"}`}
+    //         />
+    //         {showpassword ? (
+    //           <FontAwesomeIcon
+    //             icon={faEyeSlash}
+    //             color="white"
+    //             className="icon"
+    //             onClick={toggleshowpassword}
+    //           />
+    //         ) : (
+    //           <FontAwesomeIcon
+    //             icon={faEye}
+    //             color="white"
+    //             className="icon"
+    //             onClick={toggleshowpassword}
+    //           />
+    //         )}
+    //       </div>
+    //       <button type="submit" className="login-btn">
+    //         Login
+    //       </button>
+    //     </form>
+    //   </div>
+    //   <GoogleLogin />
+    //   <p>
+    //     Forgot your password? <Link to="/reset">Reset it here</Link>
+    //   </p>
+    //   <p>
+    //     Dont have an account? <Link to="/register">Register here</Link>
+    //   </p>
+    // </div>
+    <div class="login-page-container">
       <Toaster />
-      <div className="LoginForm">
-        <form onSubmit={SignUserIn}>
-          <div className="email-input">
-            <input type="email" placeholder="Email..." />
-          </div>
-          <div className="password-input">
-            <input
-              placeholder="password..."
-              type={`${!showpassword ? "text" : "password"}`}
-            />
-            {showpassword ? (
-              <FontAwesomeIcon
-                icon={faEyeSlash}
-                color="white"
-                className="icon"
-                onClick={toggleshowpassword}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faEye}
-                color="white"
-                className="icon"
-                onClick={toggleshowpassword}
-              />
-            )}
-          </div>
-          <button type="submit" className="login-btn">
+      <form class="login-card" onSubmit={SignUserIn}>
+        <h1 class="login-heading">Welcome Back!</h1>
+        <div class="login-input">
+          <input type="email" placeholder="Enter your email..." />
+          <div class="underline" />
+        </div>
+        <div class="login-input">
+          <input placeholder="Enter your Password..." type="password" />
+          <div class="underline" />
+        </div>
+        <div class="login-button-container">
+          <button type="submit" class="login-button">
             Login
           </button>
-        </form>
-      </div>
-      <GoogleLogin />
-      <p>
-        Forgot your password? <Link to="/reset">Reset it here</Link>
-      </p>
-      <p>
-        Dont have an account? <Link to="/register">Register here</Link>
-      </p>
+        </div>
+      </form>
     </div>
   );
 };
