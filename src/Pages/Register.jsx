@@ -31,6 +31,7 @@ const Register = () => {
   const [nameInput, setnameInput] = useState("");
   const [nameavailable, setnameavailable] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+
   const nameInputRef = useRef(null);
   const [user, loading, error] = useAuthState(auth);
 
@@ -47,8 +48,12 @@ const Register = () => {
       setnameavailable(true);
       console.log(nameInput);
     }
+    //Check if name contains any special characters
+    if (!/^\w+$/i.test(name)) {
+      setnameavailable(false);
+      console.log(nameavailable);
+    }
   };
-  console.log(selectedImage);
 
   const RegisterUser = async (e) => {
     setLoading(true);
@@ -56,6 +61,7 @@ const Register = () => {
     const name = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
+
     try {
       const result = await createUserWithEmailAndPassword(
         auth,
@@ -132,7 +138,7 @@ const Register = () => {
                     nameInput == "" ? "hidden" : ""
                   } name-already-taken`}
                 >
-                  Name Already Taken
+                  Name Already Taken or has special characters or space
                 </p>
               ) : (
                 <p
