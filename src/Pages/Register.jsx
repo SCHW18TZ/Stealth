@@ -138,7 +138,8 @@ const Register = () => {
                     nameInput == "" ? "hidden" : ""
                   } name-already-taken`}
                 >
-                  Name Already Taken or has special characters or space
+                  Usernameame is already taken (unlike you lmfao) or is not
+                  valid
                 </p>
               ) : (
                 <p
