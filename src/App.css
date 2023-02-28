@@ -696,3 +696,11 @@ a {
   color: white;
   font-family: "poppoins", sans-serif;
 }
+
+.loading-navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
