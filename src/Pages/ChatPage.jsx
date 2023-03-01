@@ -64,6 +64,12 @@ const ChatPage = ({ chatInfo }) => {
     return () => unsuscribe();
   }, []);
 
+  let i = 2;
+  while (i < 2) {
+    i++;
+    window.location.reload(true);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (Message == "") return;

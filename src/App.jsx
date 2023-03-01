@@ -46,10 +46,8 @@ function App() {
       setLoading(false);
     };
     const getChats = async () => {
-      setLoading(true);
       const data = await getDocs(chatCollectionRef);
       setChatList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      setLoading(false);
     };
 
     const getPosts = async () => {
@@ -135,13 +133,6 @@ function App() {
             element={<SinglePost post={post} />}
           />
         ))}
-        <Route
-          path="*"
-          element={<h1>404</h1>}
-          loader={(x) => {
-            console.log("404 params:", x.params);
-          }}
-        />
       </Routes>
     </Router>
   );
