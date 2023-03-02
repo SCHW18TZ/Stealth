@@ -61,57 +61,64 @@ const Register = () => {
     const name = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
-
-    try {
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      updateProfile(result.user, {
-        displayName: name,
-      });
-
-      const sendEmail = await sendEmailVerification(auth.currentUser);
-      console.log(sendEmail);
-
-      if (selectedImage == null) return;
-      else {
-        const ImageRef = ref(
-          storage,
-          `ProfilePics/${selectedImage.name + result.user.displayName}`
+    const confirmPassword = e.target[3].value;
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      setLoading(false);
+      return;
+    } else {
+      try {
+        const result = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
         );
-        uploadBytes(ImageRef, selectedImage).then((snapshot) => {
-          getDownloadURL(snapshot.ref).then((url) => {
-            updateProfile(result.user, {
-              photoURL: url,
-            });
-            addDoc(userCollectionRef, {
-              name: result.user.displayName.split(" ").join("_").trimEnd(),
-              email: result.user.email,
-              profilePhoto: url,
-              uid: result.user.uid,
-              createdAt: serverTimestamp(),
-              verified: false,
-              roles: ["Member"],
-              fullName: "",
-              bio: "",
-              followers: [],
-              following: [],
+        updateProfile(result.user, {
+          displayName: name,
+        });
+
+        const sendEmail = await sendEmailVerification(auth.currentUser);
+        console.log(sendEmail);
+
+        if (selectedImage == null) return;
+        else {
+          const ImageRef = ref(
+            storage,
+            `ProfilePics/${selectedImage.name + result.user.displayName}`
+          );
+          uploadBytes(ImageRef, selectedImage).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+              updateProfile(result.user, {
+                photoURL: url,
+              });
+              addDoc(userCollectionRef, {
+                name: result.user.displayName.split(" ").join("_").trimEnd(),
+                email: result.user.email,
+                profilePhoto: url,
+                uid: result.user.uid,
+                createdAt: serverTimestamp(),
+                verified: false,
+                roles: ["Member"],
+                fullName: "",
+                bio: "",
+                followers: [],
+                following: [],
+                completedSetup: false,
+              });
             });
           });
-        });
+        }
+        navigate("/");
+        toast.success("Registed successfully");
+        setLoading(false);
+      } catch (err) {
+        if (err.code === "auth/email-already-in-use") {
+          toast.error("Email already in use");
+        } else {
+          toast.error(err.message);
+        }
+        setLoading(false);
       }
-      navigate("/");
-      toast.success("Registed successfully");
-      setLoading(false);
-    } catch (err) {
-      if (err.code === "auth/email-already-in-use") {
-        toast.error("Email already in use");
-      } else {
-        toast.error(err.message);
-      }
-      setLoading(false);
     }
   };
 
@@ -155,6 +162,13 @@ const Register = () => {
               </div>
               <div>
                 <input required type="password" placeholder="password..." />
+              </div>
+              <div>
+                <input
+                  required
+                  type="password"
+                  placeholder="Confirm password..."
+                />
               </div>
               <section className="file-input">
                 <Button variant="contained" component="label" className="btn">

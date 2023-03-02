@@ -29,6 +29,7 @@ import Coding from "./Pages/Coding";
 import Meme from "./Pages/Meme";
 
 import { useAuthState } from "react-firebase-hooks/auth";
+import SetpuAccount from "./Pages/SetupAccount";
 function App() {
   const [userList, setUserList] = useState([]);
   const [Loading, setLoading] = useState(false);
@@ -103,6 +104,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
+        <Route path="/setup" element={<SetpuAccount />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
