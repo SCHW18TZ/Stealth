@@ -58,7 +58,6 @@ const Register = () => {
   const RegisterUser = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const name = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
     const confirmPassword = e.target[3].value;

@@ -1,15 +1,8 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db, storage } from "../firebase";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  where,
-  getDocs,
-  query,
-  orderBy,
-} from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
+import { collection, where, getDocs, query } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
@@ -21,7 +14,11 @@ const SetpuAccount = () => {
   const [Completed, setCompleted] = useState(null);
   let navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
+  const [nameInput, setnameInput] = useState("");
+  const [nameavailable, setnameavailable] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  const nameInputRef = useRef(null);
   const getUserData = async () => {
     const userCollectionRef = collection(db, "users");
 
@@ -39,6 +36,36 @@ const SetpuAccount = () => {
 
   getUserData();
 
+  const usernameQuery = async (e) => {
+    const name = e.target.value;
+    setnameInput(name);
+    console.log(name);
+    let q = query(userCollectionRef, where("name", "==", name));
+    let querySnap = await getDocs(q);
+    if (querySnap.size > 0) {
+      setnameavailable(false);
+      console.log(nameInput);
+    } else {
+      setnameavailable(true);
+      console.log(nameInput);
+    }
+    //Check if name contains any special characters
+    if (!/^\w+$/i.test(name)) {
+      setnameavailable(false);
+      console.log(nameavailable);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const name = e.target[0].value;
+    const file = e.target[1].files[0];
+
+    updateProfile(result.user, {
+      displayName: name,
+    });
+  };
+
   return (
     <div className="SetupPage">
       {user?.completedSetup !== true ? (
@@ -48,9 +75,9 @@ const SetpuAccount = () => {
             You need to setup your account before you can use the app. Please
             enter your name and upload a profile picture.
           </p>
-          <form>
-            <input type="text" placeholder="Name" />
-            <input type="file" />
+          <form onSubmit={handleSubmit}>
+            <input required type="text" placeholder="Name" />
+            <input required type="file" />
             <button type="submit">Submit</button>
           </form>
         </div>
