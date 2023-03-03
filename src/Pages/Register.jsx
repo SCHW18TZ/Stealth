@@ -61,7 +61,51 @@ const Register = () => {
     const email = e.target[0].value;
     const password = e.target[1].value;
     const confirmPassword = e.target[2].value;
-    console.log(email, password, confirmPassword);
+
+    // if (password !== confirmPassword) {
+    //   toast.error("Passwords do not match");
+    //   setLoading(false);
+    //   return;
+    // } else {
+    //   try {
+    //     navigate("/");
+    //     toast.success("Registed successfully");
+    //     setLoading(false);
+    //     const result = await createUserWithEmailAndPassword(
+    //       auth,
+    //       email,
+    //       password
+    //     );
+
+    //     const sendEmail = await sendEmailVerification(auth.currentUser);
+    //     console.log(sendEmail);
+
+    //           addDoc(userCollectionRef, {
+    //             // name: result.user.displayName.split(" ").join("_").trimEnd(),
+    //             email: result.user.email,
+    //             // profilePhoto: url,
+    //             uid: result.user.uid,
+    //             createdAt: serverTimestamp(),
+    //             verified: false,
+    //             roles: ["Member"],
+    //             fullName: "",
+    //             bio: "",
+    //             followers: [],
+    //             following: [],
+    //             completedSetup: false,
+    //           });
+
+    //         }
+    //   } catch (err) {
+    //     if (err.code === "auth/email-already-in-use") {
+    //       toast.error("Email already in use");
+    //     } else {
+    //       toast.error(err.message);
+    //     }
+    //     setLoading(false);
+    //   }
+    // }
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       setLoading(false);
@@ -73,51 +117,31 @@ const Register = () => {
           email,
           password
         );
-        updateProfile(result.user, {
-          displayName: name,
+
+        const userCollectionRef = collection(db, "users");
+        const docRef = await addDoc(userCollectionRef, {
+          email: result.user.email,
+          uid: result.user.uid,
+          verified: false,
+          roles: ["Member"],
+          fullName: "",
+          bio: "",
+          name: "",
+          followers: [],
+          following: [],
+          completedSetup: false,
+
+          createdAt: serverTimestamp(),
         });
 
         const sendEmail = await sendEmailVerification(auth.currentUser);
         console.log(sendEmail);
 
-        if (selectedImage == null) return;
-        else {
-          const ImageRef = ref(
-            storage,
-            `ProfilePics/${selectedImage.name + result.user.displayName}`
-          );
-          uploadBytes(ImageRef, selectedImage).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((url) => {
-              updateProfile(result.user, {
-                photoURL: url,
-              });
-              addDoc(userCollectionRef, {
-                name: result.user.displayName.split(" ").join("_").trimEnd(),
-                email: result.user.email,
-                profilePhoto: url,
-                uid: result.user.uid,
-                createdAt: serverTimestamp(),
-                verified: false,
-                roles: ["Member"],
-                fullName: "",
-                bio: "",
-                followers: [],
-                following: [],
-                completedSetup: false,
-              });
-            });
-          });
-        }
-        navigate("/");
         toast.success("Registed successfully");
         setLoading(false);
+        navigate("/");
       } catch (err) {
-        if (err.code === "auth/email-already-in-use") {
-          toast.error("Email already in use");
-        } else {
-          toast.error(err.message);
-        }
-        setLoading(false);
+        toast.error(err.message);
       }
     }
   };
