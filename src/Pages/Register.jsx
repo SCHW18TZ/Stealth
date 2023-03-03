@@ -130,15 +130,15 @@ const Register = () => {
           <Toaster />
           <div className="RegisterForm">
             <form onSubmit={RegisterUser}>
-              <div>
+              {/* <div>
                 <input
                   required
                   type="text"
                   placeholder="Username..."
                   onChange={usernameQuery}
                 />
-              </div>
-              {!nameavailable ? (
+              </div> */}
+              {/* {!nameavailable ? (
                 <p
                   className={`${
                     nameInput == "" ? "hidden" : ""
@@ -155,7 +155,7 @@ const Register = () => {
                 >
                   Name Available
                 </p>
-              )}
+              )} */}
               <div>
                 <input required type="email" placeholder="Email..." />
               </div>
@@ -169,20 +169,6 @@ const Register = () => {
                   placeholder="Confirm password..."
                 />
               </div>
-              <section className="file-input">
-                <Button variant="contained" component="label" className="btn">
-                  Upload Image
-                  <input
-                    hidden
-                    required
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      setSelectedImage(e.target.files[0]);
-                    }}
-                  />
-                </Button>
-              </section>
               <button
                 disabled={nameavailable == false}
                 type="submit"

@@ -64,6 +64,32 @@ const SetpuAccount = () => {
     updateProfile(result.user, {
       displayName: name,
     });
+
+    if (selectedImage == null) return;
+    else {
+      const ImageRef = ref(
+        storage,
+        `ProfilePics/${selectedImage.name + result.user.displayName}`
+      );
+      uploadBytes(ImageRef, selectedImage).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          updateProfile(result.user, {
+            photoURL: url,
+          });
+          const userCollectionRef = collection(db, "users");
+          const q = query(userCollectionRef, where("uid", "==", user.uid));
+          const querySnap = getDocs(q);
+          querySnap.forEach((doc) => {
+            doc.ref.update({
+              completedSetup: true,
+              profilePicture: url,
+            });
+          });
+        });
+      });
+    }
+
+    navigate("/");
   };
 
   return (
@@ -76,8 +102,36 @@ const SetpuAccount = () => {
             enter your name and upload a profile picture.
           </p>
           <form onSubmit={handleSubmit}>
-            <input required type="text" placeholder="Name" />
-            <input required type="file" />
+            {!nameavailable ? (
+              <p
+                className={`${
+                  nameInput == "" ? "hidden" : ""
+                } name-already-taken`}
+              >
+                Usernameame is already taken (unlike you lmfao) or is not valid
+              </p>
+            ) : (
+              <p
+                className={`${nameInput == "" ? "hidden" : ""} name-available`}
+              >
+                Name Available
+              </p>
+            )}
+
+            <section className="file-input">
+              <Button variant="contained" component="label" className="btn">
+                Upload Image
+                <input
+                  hidden
+                  required
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setSelectedImage(e.target.files[0]);
+                  }}
+                />
+              </Button>
+            </section>
             <button type="submit">Submit</button>
           </form>
         </div>
