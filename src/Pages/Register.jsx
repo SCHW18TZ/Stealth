@@ -58,9 +58,10 @@ const Register = () => {
   const RegisterUser = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const email = e.target[1].value;
-    const password = e.target[2].value;
-    const confirmPassword = e.target[3].value;
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+    const confirmPassword = e.target[2].value;
+    console.log(email, password, confirmPassword);
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       setLoading(false);
